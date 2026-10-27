@@ -20,3 +20,5 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: test sts
         run: aws sts get-caller-identity
+      - name: s3 ls
+        run: aws s3 ls

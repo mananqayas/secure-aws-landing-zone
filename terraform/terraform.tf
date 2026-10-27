@@ -22,7 +22,7 @@ terraform {
     bucket = "mgmt-admin-terraform-state-013310058149"
     key    = "org/terraform.tfstate"
     region = "ca-central-1"
-    
+
   }
 
 }
