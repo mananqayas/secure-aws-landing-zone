@@ -99,3 +99,52 @@ resource "aws_s3_bucket_public_access_block" "state_privacy" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+# 8. Create OIDC provider trust with AWS
+resource "aws_iam_openid_connect_provider" "github" {
+
+  url            = "https://token.actions.githubusercontent.com"
+  client_id_list = ["sts.amazonaws.com"]
+  tags = {
+    Name = "github"
+  }
+
+}
+
+# 9. Create IAM role for plan ci step
+resource "aws_iam_role" "plan_role" {
+
+  name = "plan_role"
+
+  assume_role_policy = jsonencode({
+
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = ""
+        Effect = "Allow"
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Principal = {
+          Federated = aws_iam_openid_connect_provider.github.arn
+        }
+        Condition = {
+
+          "StringEquals" = {
+            "token.actions.githubusercontent.com:sub" = "repo:mananqayas@*/secure-aws-landing-zone@*:ref:refs/heads/*"
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+
+          }
+        }
+
+      }
+    ]
+
+  })
+}
+
+# 10. Attach the AWS Managed Policy using its static ARN
+resource "aws_iam_role_policy_attachment" "managed_policy_attach" {
+  role       = aws_iam_role.plan_role.name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+
