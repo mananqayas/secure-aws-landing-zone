@@ -151,3 +151,30 @@ resource "aws_iam_role_policy_attachment" "managed_policy_attach" {
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
+# 11. Create JSON data policy for S3 access to terraform state bucket
+data "aws_iam_policy_document" "s3_policy_for_plan_role" {
+
+  statement {
+
+    effect    = "Allow"
+    actions   = ["s3:ListBucket", "s3:GetObject"]
+    resources = ["arn:aws:s3:::mgmt-admin-terraform-state-013310058149", "arn:aws:s3:::mgmt-admin-terraform-state-013310058149/*"]
+
+  }
+}
+
+# 12. Create IAM policy for s3 access
+resource "aws_iam_policy" "s3_access_policy_plan_role" {
+
+  name        = "s3-access-policy-for-plan-role"
+  description = "Policy for terraform plan role to access s3 bucket for reading state file"
+  policy      = data.aws_iam_policy_document.s3_policy_for_plan_role.json
+
+}
+
+# 13. Assign the IAM policy with terraform plan role
+
+resource "aws_iam_role_policy_attachment" "custom_policy_attach" {
+  role       = aws_iam_role.plan_role.name
+  policy_arn = aws_iam_policy.s3_access_policy_plan_role.arn
+}
