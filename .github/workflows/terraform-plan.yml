@@ -7,7 +7,7 @@ permissions:
   contents: read
   id-token: write
 jobs:
-  test:
+  plan:
     runs-on: ubuntu-24.04
     steps:
       - name: Git clone the respository
@@ -18,7 +18,10 @@ jobs:
           role-to-assume: arn:aws:iam::013310058149:role/plan_role
           role-session-name: samplerolesession
           aws-region: ${{ env.AWS_REGION }}
-      - name: test sts
-        run: aws sts get-caller-identity
-      - name: s3 ls
-        run: aws s3 ls
+      - name: Setup terraform action
+        uses: hashicorp/setup-terraform@v4
+      - name: Terraform plan
+        run: |
+          cd terraform
+          terraform fmt && terraform validate
+          terraform plan
