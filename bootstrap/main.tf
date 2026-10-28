@@ -130,7 +130,7 @@ resource "aws_iam_role" "plan_role" {
         Condition = {
 
           "StringLike" = {
-            "token.actions.githubusercontent.com:sub" = "repo:mananqayas@*/secure-aws-landing-zone@*:ref:refs/heads/*"
+            "token.actions.githubusercontent.com:sub" = "repo:mananqayas@*/secure-aws-landing-zone@*:*"
 
           }
 
