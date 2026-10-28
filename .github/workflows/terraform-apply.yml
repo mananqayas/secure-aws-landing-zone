@@ -14,7 +14,13 @@ jobs:
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
-    - name: test whoami
-      run: whoami
+    - name: Configure aws action
+      uses: aws-actions/configure-aws-credentials@v6
+      with:
+        role-to-assume: arn:aws:iam::013310058149:role/apply-role
+        aws-region: ${{ env.AWS_REGION }}
+    - name: test aws role assume
+      run: aws sts get-caller-identity
+
 
 

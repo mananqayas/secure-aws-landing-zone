@@ -184,3 +184,39 @@ resource "aws_iam_role_policy_attachment" "custom_policy_attach" {
   role       = aws_iam_role.plan_role.name
   policy_arn = aws_iam_policy.s3_access_policy_plan_role.arn
 }
+
+
+# 14. Create JSON policy for apply role trust relationship
+data "aws_iam_policy_document" "apply_role_trust_policy" {
+
+  statement {
+    sid     = ""
+    effect  = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.github.arn]
+    }
+    condition {
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:mananqayas@*/secure-aws-landing-zone@*:*"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+  }
+
+}
+
+
+# 15. Create IAM role for apply
+
+resource "aws_iam_role" "apply_role" {
+
+  name               = "apply-role"
+  assume_role_policy = data.aws_iam_policy_document.apply_role_trust_policy.json
+}
+
