@@ -10,7 +10,3 @@ resource "aws_organizations_organizational_unit" "security_ou" {
 
 }
 
-resource "aws_organizations_organizational_unit" "imported_ou" {
- name      = "some"
- parent_id = "r-idl1"
-}
