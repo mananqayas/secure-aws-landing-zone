@@ -40,7 +40,7 @@ resource "aws_kms_key" "terraform_state_key" {
         Resource = "*"
         Condition = {
           ArnEquals = {
-            "aws:SourceArn" = "arn:aws:iam:::mgmt-admin-terraform-state-${data.aws_caller_identity.current.account_id}"
+            "aws:SourceArn" = "arn:aws:s3:::mgmt-admin-terraform-state-${data.aws_caller_identity.current.account_id}"
           }
         }
 
