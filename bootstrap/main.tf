@@ -226,6 +226,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
     effect = "Allow"
     actions = [
       "organizations:CreateAccount",
+      "organizations:ListAccounts",
       "organizations:DescribeCreateAccountStatus",
       "organizations:CreateOrganizationalUnit",
       "organizations:DescribeOrganizationalUnit",
