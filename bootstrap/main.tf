@@ -231,6 +231,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "organizations:CreateOrganizationalUnit",
       "organizations:DescribeOrganizationalUnit",
       "organizations:MoveAccount",
+      "organizations:DeleteOrganizationalUnit",
       "organizations:ListRoots",
       "organizations:ListAccountsForParent",
       "organizations:ListOrganizationalUnitsForParent",
