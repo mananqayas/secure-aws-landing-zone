@@ -28,7 +28,7 @@ jobs:
     - run: terraform plan && terraform validate
       working-directory: ./terraform
       continue-on-error: true
-    - run: terraform apply
+    - run: terraform apply -auto-approve
       working-directory: ./terraform
 
 
