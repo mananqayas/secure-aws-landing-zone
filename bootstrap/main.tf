@@ -114,7 +114,7 @@ resource "aws_iam_openid_connect_provider" "github" {
 # 9. Create IAM role for plan ci step
 resource "aws_iam_role" "plan_role" {
 
-  name = "plan_role"
+  name = "plan-role"
 
   assume_role_policy = jsonencode({
 
@@ -213,10 +213,144 @@ data "aws_iam_policy_document" "apply_role_trust_policy" {
 
 
 # 15. Create IAM role for apply
-
 resource "aws_iam_role" "apply_role" {
 
   name               = "apply-role"
   assume_role_policy = data.aws_iam_policy_document.apply_role_trust_policy.json
 }
+
+data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
+
+  statement {
+
+    effect = "Allow"
+    actions = [
+      "organizations:CreateAccount",
+      "organizations:DescribeCreateAccountStatus",
+      "organizations:CreateOrganizationalUnit",
+      "organizations:DescribeOrganizationalUnit",
+      "organizations:MoveAccount",
+      "organizations:ListRoots",
+      "organizations:ListAccountsForParent",
+      "organizations:ListOrganizationalUnitsForParent",
+      "organizations:ListParents",
+      "organizations:ListChildren",
+      "organizations:DescribeOrganization",
+      "organizations:DescribeAccount",
+      "organizations:EnableAWSServiceAccess",
+      "organizations:ListAWSServiceAccessForOrganization",
+      "organizations:RegisterDelegatedAdministrator",
+      "organizations:DeregisterDelegatedAdministrator",
+      "organizations:ListDelegatedAdministrators",
+      "organizations:TagResource",
+      "organizations:UntagResource",
+      "organizations:ListTagsForResource"
+    ]
+    resources = ["*"]
+    sid       = "OrgControlPlane"
+
+  }
+
+  statement {
+    sid    = "PlatformIAM"
+    effect = "Allow"
+    resources = [
+      "arn:aws:iam::013310058149:role/terraform-*",
+      "arn:aws:iam::013310058149:policy/terraform-*"
+    ]
+    actions = [
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:GetRole",
+      "iam:AttachRolePolicy",
+      "iam:DetachRolePolicy",
+      "iam:PutRolePolicy",
+      "iam:GetRolePolicy",
+      "iam:DeleteRolePolicy",
+      "iam:CreatePolicy",
+      "iam:DeletePolicy",
+      "iam:GetPolicy",
+      "iam:GetPolicyVersion",
+      "iam:DeletePolicyVersion",
+      "iam:ListPolicyVersions",
+      "iam:TagRole",
+      "iam:UntagRole",
+      "iam:PassRole"
+    ]
+  }
+  statement {
+
+    effect = "Allow"
+    sid    = "StateFullAccess"
+    actions = [
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+
+    ]
+    resources = [
+      "arn:aws:s3:::mgmt-admin-terraform-state-013310058149",
+      "arn:aws:s3:::mgmt-admin-terraform-state-013310058149/*"
+
+
+    ]
+  }
+  statement {
+    sid    = "StateKeyUse"
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt",
+      "kms:Encrypt",
+      "kms:GenerateDataKey",
+      "kms:DescribeKey"
+    ]
+    resources = ["arn:aws:kms:ca-central-1:013310058149:key/4d4fee85-76f6-4b52-a1ec-11f79c983cf8"]
+  }
+  statement {
+    sid    = "AssumeMemberDeployRoles"
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = [
+      "arn:aws:iam::*:role/OrganizationAccountAccessRole",
+      "arn:aws:iam::*:role/terraform-deploy"
+    ]
+  }
+  statement {
+
+    sid       = "NeverStaticCreds"
+    effect    = "Deny"
+    actions   = ["iam:CreateUser", "iam:CreateAccessKey"]
+    resources = ["*"]
+  }
+  statement {
+    sid     = "ProtectCIRoles"
+    effect  = "Deny"
+    actions = ["iam:*"]
+    resources = [
+      "arn:aws:iam::013310058149:role/plan-role",
+      "arn:aws:iam::013310058149:role/apply-role"
+
+    ]
+  }
+
+}
+
+# 16. Create IAM policy for apply role
+resource "aws_iam_policy" "apply_role_permissions_policy" {
+
+  name   = "apply-role-policy"
+  policy = data.aws_iam_policy_document.apply_role_permissions_policy_doc.json
+}
+
+# 17. Attach IAM policy with the apply role
+resource "aws_iam_role_policy_attachment" "policy_attachment_apply_role" {
+
+  role       = aws_iam_role.apply_role.name
+  policy_arn = aws_iam_policy.apply_role_permissions_policy.arn
+}
+
+
 

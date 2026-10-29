@@ -21,6 +21,15 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
     - name: test aws role assume
       run: aws sts get-caller-identity
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v4
+    - run: terraform init
+      working-directory: ./terraform
+    - run: terraform plan && terraform validate
+      working-directory: ./terraform
+      continue-on-error: true
+    - run: terraform apply
+      working-directory: ./terraform
 
 
 
