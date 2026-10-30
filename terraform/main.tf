@@ -9,7 +9,7 @@ resource "aws_organizations_organizational_unit" "some" {
 
 resource "aws_organizations_organizational_unit" "another" {
   name      = "another"
-  parent_id = "ou-idl1-fioztzvr"
+  parent_id = aws_organizations_organizational_unit.some.id
   depends_on = [aws_organizations_organizational_unit.some]
   tags      = {}
   tags_all  = {}
