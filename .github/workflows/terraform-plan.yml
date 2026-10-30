@@ -64,7 +64,7 @@ jobs:
            ### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
            <details><summary>Show Plan</summary>
            \`\`\`\n
-           ${{ process.env.PLAN }}
+           ${process.env.PLAN}
            \`\`\`
           </details>
 
