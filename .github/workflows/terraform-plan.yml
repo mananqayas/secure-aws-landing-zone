@@ -69,24 +69,24 @@ jobs:
 
             \`\`\`
             ${process.env.VALIDATE_STDOUT}
-           \`\`\`
+            \`\`\`
 
-           </details>
+            </details>
 
-           ### Terraform Plan 📖 \`${process.env.PLAN_OUTCOME}\`
-           <details><summary>Show Plan</summary>
+            ### Terraform Plan 📖 \`${process.env.PLAN_OUTCOME}\`
+            <details><summary>Show Plan</summary>
 
-           \`\`\`
-           ${process.env.PLAN_STDOUT}
-           \`\`\`
+            \`\`\`
+            ${process.env.PLAN_STDOUT}
+            \`\`\`
 
-          </details>
+            </details>
 
-          *Pusher: @${process.env.ACTOR}, Action: \`${process.env.EVENT_NAME}\`, Working Directory: \`${process.env.WORKING_DIR}\`, Workflow: \`${process.env.WORKFLOW}\`*`;
+            *Pusher: @${process.env.ACTOR}, Action: \`${process.env.EVENT_NAME}\`, Working Directory: \`${process.env.WORKING_DIR}\`, Workflow: \`${process.env.WORKFLOW}\`*`;
 
-          github.rest.issues.createComment({
+            github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: output
-           })
+            })
