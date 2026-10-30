@@ -47,7 +47,7 @@ jobs:
         continue-on-error: true
 
       - uses: actions/github-script@v7
-        if: github.event_name == "pull_request"
+        if: github.event_name == 'pull_request'
         env:
           FMT_OUTCOME: ${{ steps.fmt.outcome }}
           INIT_OUTCOME: ${{ steps.init.outcome }}
