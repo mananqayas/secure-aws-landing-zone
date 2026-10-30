@@ -11,23 +11,82 @@ env:
 permissions:
   contents: read
   id-token: write
+  pull-requests: write
 jobs:
   plan:
     runs-on: ubuntu-24.04
     steps:
       - name: Git clone the respository
         uses: actions/checkout@v6
+
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
           role-to-assume: arn:aws:iam::013310058149:role/plan-role
           role-session-name: samplerolesession
           aws-region: ${{ env.AWS_REGION }}
-      - name: Setup terraform action
-        uses: hashicorp/setup-terraform@v4
+
+      - uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform init
+        id: init
+        run: terraform init -input=false
+
+      - name: Terraform validate
+        id: validate
+        run: terraform validate -no-color
+
       - name: Terraform plan
-        run: |
-          cd terraform
-          terraform init
-          terraform fmt && terraform validate
-          terraform plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        env:
+          FMT_OUTCOME: ${{ steps.fmt.outcome }}
+          INIT_OUTCOME: ${{ steps.init.outcome }}
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+          VALIDATE_STDOUT: ${{ steps.validate.outputs.stdout }}
+          PLAN_OUTCOME: ${{ steps.plan.outcome }}
+          PLAN_STDOUT: ${{ steps.plan.outputs.stdout }}
+          ACTOR: ${{ github.actor }}
+          EVENT_NAME: ${{ github.event_name }}
+          WORKING_DIR: ${{ env.tf_actions_working_dir }}
+          WORKFLOW: ${{ github.workflow }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `### Terraform Format and Style 🖌\`${process.env.FMT_OUTCOME}\`
+            ### Terraform Initialization \`${process.env.INIT_OUTCOME}\`
+            ### Terraform Validation \`${process.env.VALIDATE_OUTCOME}\`
+            <details><summary>Validation output</summary>
+
+            \`\`\`
+            ${process.env.VALIDATE_STDOUT}
+            \`\`\`
+
+            </details>
+
+            ### Terraform Plan 📖 \`${process.env.PLAN_OUTCOME}\`
+            <details><summary>Show Plan</summary>
+
+            \`\`\`
+            ${process.env.PLAN_STDOUT}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${process.env.ACTOR}, Action: \`${process.env.EVENT_NAME}\`, Working Directory: \`${process.env.WORKING_DIR}\`, Workflow: \`${process.env.WORKFLOW}\`*`;
+
+            github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+            })
