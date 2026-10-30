@@ -14,6 +14,9 @@ permissions:
   pull-requests: write
 jobs:
   plan:
+    defaults:
+      run:
+        working-directory: ./terraform
     runs-on: ubuntu-24.04
     steps:
       - name: Git clone the respository
