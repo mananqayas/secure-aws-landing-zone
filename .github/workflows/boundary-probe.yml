@@ -14,27 +14,58 @@ jobs:
           aws-region: ca-central-1
       - run: |
           set +e
-          cat > trust.json <<'EOF'
-            {
-              "Version": "2012-10-17",
-              "Statement": [
+
+          BOUNDARY=arn:aws:iam::013310058149:policy/terraform-boundary
+
+          printf '%s\n' '{
+            "Version": "2012-10-17",
+            "Statement": [
                 {
-                  "Effect": "Allow",
-                  "Principal": {
-                    "AWS": "arn:aws:iam::013310058149:root"
-                  },
-                  "Action": "sts:AssumeRole"
+                    "Effect": "Allow",
+                    "Action": "sts:AssumeRole",
+                    "Principal": {
+                        "AWS": "arn:aws:iam::013310058149:root"
+                  }
                 }
-              ]
-            }
-          EOF
+            ]
+          }' > trust.json
+
+          printf '%s\n' '{
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Action": "*",
+                "Resource": "*",
+                "Effect": "Allow"
+              }  
+            ]
+          }' > admin.json
+          echo "=== TEST 1: create role WITHOUT boundary (expect AccessDenied) ==="
           aws iam create-role --role-name terraform-probe-open \
             --assume-role-policy-document file://trust.json
-          echo "no-boundary exit: $?"
+          if [ $? -ne 0 ]; then
+            echo "TEST 1 PASS: unfenced creation denied"
+          else
+            echo "TEST 1 FAIL: unfenced role was created, deleting it"
+            aws iam delete-role --role-name terraform-probe-open
+          fi
+
+          echo "=== TEST 2: create role WITH boundary (expect success) ==="
           aws iam create-role --role-name terraform-probe-bounded \
-            --assume-role-policy-document file://trust.json \
-            --permissions-boundary arn:aws:iam::013310058149:policy/terraform-boundary
-          echo "with-boundary: $?"
+            --assume-role-policy-document file://trust.json
+            --permissions-boundary $BOUNDARY
+          echo "bounded create exit: $?"
+
+          echo "=== TEST 3: full power through the fence (expect success) ==="
+          aws iam create-policy --policy-name terraform-probe-admin \
+            --policy-document file://admin.json
           aws iam attach-role-policy --role-name terraform-probe-bounded \
-            --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+            --policy-arn arn:aws:iam::013310058149:policy/terraform-probe-admin
+          echo "attach exit: $?"
+
+          echo "=== EVIDENCE: the probe as AWS sees it ==="
+          aws iam get-role --role-name terraform-probe-bounded
+
+
+
         
