@@ -244,12 +244,12 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
       "organizations:ListParents",
       "organizations:ListChildren",
       "organizations:DescribeOrganization",
-      "organizations:DescribeAcount",
+      "organizations:DescribeAccount",
       "organizations:EnableAWSServiceAccess",
       "organizations:ListAWSServiceAccessForOrganization",
       "organizations:RegisterDelegatedAdministrator",
       "organizations:DeregisterDelegatedAdministrator",
-      "organizations:ListDeletegatedAdministrator",
+      "organizations:ListDelegatedAdministrators",
       "organizations:TagResource",
       "organizations:UntagResource",
       "organizations:ListTagsForResource"
@@ -271,7 +271,6 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
       "iam:GetRolePolicy",
       "iam:DeleteRolePolicy",
       "iam:GetPolicyVersion",
-      "iam:CreatePolicyVersion",
       "iam:DeletePolicyVersion",
       "iam:ListPolicyVersions",
       "iam:TagRole",
@@ -284,11 +283,6 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
       "arn:aws:iam::013310058149:policy/terraform-*"
     ]
 
-    condition {
-      test     = "StringEquals"
-      variable = "iam:PermissionsBoundary"
-      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
-    }
   }
 
   statement {
@@ -325,7 +319,7 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
     sid       = "AssumeCeiling"
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
-    resources = ["arn:aws:iam::*:role/OrganizationalAccountAccessRole", "arn:aws:iam::*:role/terraform-deploy"]
+    resources = ["arn:aws:iam::*:role/OrganizationAccountAccessRole", "arn:aws:iam::*:role/terraform-deploy"]
   }
 
 
@@ -381,6 +375,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "iam:PutRolePolicy",
       "iam:GetRolePolicy",
       "iam:DeleteRolePolicy",
+      "iam:CreatePolicyVersion",
       "iam:CreatePolicy",
       "iam:DeletePolicy",
       "iam:GetPolicy",
@@ -391,12 +386,12 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "iam:UntagRole",
       "iam:PassRole"
     ]
-
     condition {
       test     = "StringEquals"
       variable = "iam:PermissionsBoundary"
       values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
     }
+
   }
   statement {
 
@@ -455,18 +450,13 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
 
     ]
 
-    condition {
-      test     = "StringEquals"
-      variable = "iam:PermissionsBoundary"
-      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
-    }
   }
 
 }
 resource "aws_iam_policy" "apply_role_permissions_boundary" {
 
   name   = "terraform-boundary"
-  policy = data.aws_iam_policy_document.apply_role_permissions_policy_doc.json
+  policy = data.aws_iam_policy_document.apply_role_iam_permissions_boundary.json
 }
 # 16. Create IAM policy for apply role
 resource "aws_iam_policy" "apply_role_permissions_policy" {
