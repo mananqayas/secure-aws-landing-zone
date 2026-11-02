@@ -1,0 +1,40 @@
+on: workflow_dispatch
+jobs:
+  probe:
+    environment: production
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
+        with:
+          role-to-assume: arn:aws:iam::013310058149:role/apply-role
+          aws-region: ca-central-1
+      - run: |
+          set +e
+          cat > trust.json <<'EOF'
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": {
+                    "AWS": "arn:aws:iam::013310058149:root"
+                  },
+                  "Action": "sts:AssumeRole"
+                }
+              ]
+            }
+          EOF
+          aws iam create-role --role-name terraform-probe-open \
+            --assume-role-policy-document file://trust.json
+          echo "no-boundary exit: $?"
+          aws iam create-role --role-name terraform-probe-bounded \
+            --assume-role-policy-document file://trust.json \
+            --permissions-boundary arn:aws:iam::013310058149:policy/terraform-boundary
+          echo "with-boundary: $?"
+          aws iam attach-role-policy --role-name terraform-probe-bounded \
+            --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+        
