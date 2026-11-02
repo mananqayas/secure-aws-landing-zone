@@ -167,6 +167,12 @@ data "aws_iam_policy_document" "s3_policy_for_plan_role" {
     actions   = ["kms:Decrypt", "kms:DescribeKey"]
     resources = ["arn:aws:kms:ca-central-1:013310058149:key/4d4fee85-76f6-4b52-a1ec-11f79c983cf8"]
   }
+  statement {
+    effect = "Allow"
+    actions = ["s3:PutObject", "s3:DeleteObject"]
+    resources = ["arn:aws:s3:::mgmt-admin-terraform-state-${data.aws_caller_identity.current.account_id}/*.tflock"]
+
+  }
 }
 
 # 12. Create IAM policy for s3 access
