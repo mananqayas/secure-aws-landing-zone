@@ -168,8 +168,8 @@ data "aws_iam_policy_document" "s3_policy_for_plan_role" {
     resources = ["arn:aws:kms:ca-central-1:013310058149:key/4d4fee85-76f6-4b52-a1ec-11f79c983cf8"]
   }
   statement {
-    effect = "Allow"
-    actions = ["s3:PutObject", "s3:DeleteObject"]
+    effect    = "Allow"
+    actions   = ["s3:PutObject", "s3:DeleteObject"]
     resources = ["arn:aws:s3:::mgmt-admin-terraform-state-${data.aws_caller_identity.current.account_id}/*.tflock"]
 
   }
@@ -223,6 +223,112 @@ resource "aws_iam_role" "apply_role" {
 
   name               = "apply-role"
   assume_role_policy = data.aws_iam_policy_document.apply_role_trust_policy.json
+}
+data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
+
+  statement {
+
+    effect = "Allow"
+    sid    = "OrgCeiling"
+    actions = [
+      "organizations:CreateAccount",
+      "organizations:ListAccounts",
+      "organizations:DescribeCreateAccountStatus",
+      "organizations:CreateOrganizationalUnit",
+      "organizations:DescribeOrganizationalUnit",
+      "organizations:MoveAccount",
+      "organizations:DeleteOrganizationalUnit",
+      "organizations:ListRoots",
+      "organizations:ListAccountsForParent",
+      "organizations:ListOrganizationalUnitsForParent",
+      "organizations:ListParents",
+      "organizations:ListChildren",
+      "organizations:DescribeOrganization",
+      "organizations:DescribeAcount",
+      "organizations:EnableAWSServiceAccess",
+      "organizations:ListAWSServiceAccessForOrganization",
+      "organizations:RegisterDelegatedAdministrator",
+      "organizations:DeregisterDelegatedAdministrator",
+      "organizations:ListDeletegatedAdministrator",
+      "organizations:TagResource",
+      "organizations:UntagResource",
+      "organizations:ListTagsForResource"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+
+    sid    = "PlatformIAMCeiling"
+    effect = "Allow"
+    actions = [
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:GetRole",
+      "iam:AttachRolePolicy",
+      "iam:DetachRolePolicy",
+      "iam:PutRolePolicy",
+      "iam:GetRolePolicy",
+      "iam:DeleteRolePolicy",
+      "iam:GetPolicyVersion",
+      "iam:CreatePolicyVersion",
+      "iam:DeletePolicyVersion",
+      "iam:ListPolicyVersions",
+      "iam:TagRole",
+      "iam:UntagRole",
+      "iam:PassRole",
+      "iam:CreatePolicyVersion"
+    ]
+    resources = [
+      "arn:aws:iam::013310058149:role/terraform-*",
+      "arn:aws:iam::013310058149:policy/terraform-*"
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PermissionsBoundary"
+      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
+    }
+  }
+
+  statement {
+
+    sid    = "StateCeling"
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ]
+    resources = [
+      "arn:aws:s3:::mgmt-admin-terraform-state-013310058149",
+      "arn:aws:s3:::mgmt-admin-terraform-state-013310058149/*"
+    ]
+  }
+
+  statement {
+    sid    = "StateKeyCeiling"
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt",
+      "kms:Encrypt",
+      "kms:GenerateDataKey",
+      "kms:DescribeKey"
+
+    ]
+    resources = [
+      "arn:aws:kms:ca-central-1:013310058149:key/4d4fee85-76f6-4b52-a1ec-11f79c983cf8",
+    ]
+  }
+  statement {
+    sid       = "AssumeCeiling"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = ["arn:aws:iam::*:role/OrganizationalAccountAccessRole", "arn:aws:iam::*:role/terraform-deploy"]
+  }
+
+
 }
 
 data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
@@ -285,6 +391,12 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "iam:UntagRole",
       "iam:PassRole"
     ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PermissionsBoundary"
+      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
+    }
   }
   statement {
 
@@ -342,10 +454,20 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "arn:aws:iam::013310058149:role/apply-role"
 
     ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PermissionsBoundary"
+      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
+    }
   }
 
 }
+resource "aws_iam_policy" "apply_role_permissions_boundary" {
 
+  name   = "terraform-boundary"
+  policy = data.aws_iam_policy_document.apply_role_permissions_policy_doc.json
+}
 # 16. Create IAM policy for apply role
 resource "aws_iam_policy" "apply_role_permissions_policy" {
 
