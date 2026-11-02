@@ -446,7 +446,8 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
     actions = ["iam:*"]
     resources = [
       "arn:aws:iam::013310058149:role/plan-role",
-      "arn:aws:iam::013310058149:role/apply-role"
+      "arn:aws:iam::013310058149:role/apply-role",
+      aws_iam_policy.apply_role_permissions_boundary.arn
 
     ]
 
