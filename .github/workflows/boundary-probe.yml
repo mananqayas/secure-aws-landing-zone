@@ -42,7 +42,7 @@ jobs:
           }' > admin.json
           echo "=== TEST 1: create role WITHOUT boundary (expect AccessDenied) ==="
           aws iam create-role --role-name terraform-probe-open \
-            --assume-role-policy-document file://trust.json \
+            --assume-role-policy-document file://trust.json 
           if [ $? -ne 0 ]; then
             echo "TEST 1 PASS: unfenced creation denied"
           else
