@@ -358,16 +358,33 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
     sid       = "OrgControlPlane"
 
   }
-
   statement {
     sid    = "PlatformIAM"
+    effect = "Allow"
+    actions = [
+      "iam:CreateRole"
+    ]
+
+    resources = [
+      "arn:aws:iam::013310058149:policy/terraform-*",
+      "arn:aws:iam::013310058149:policy/terraform-*"
+
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PermissionsBoundary"
+      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
+    }
+  }
+
+  statement {
+    sid    = "PlatformIAMManage"
     effect = "Allow"
     resources = [
       "arn:aws:iam::013310058149:role/terraform-*",
       "arn:aws:iam::013310058149:policy/terraform-*"
     ]
     actions = [
-      "iam:CreateRole",
       "iam:DeleteRole",
       "iam:GetRole",
       "iam:AttachRolePolicy",
@@ -386,11 +403,6 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "iam:UntagRole",
       "iam:PassRole"
     ]
-    condition {
-      test     = "StringEquals"
-      variable = "iam:PermissionsBoundary"
-      values   = ["arn:aws:iam::013310058149:policy/terraform-boundary"]
-    }
 
   }
   statement {
