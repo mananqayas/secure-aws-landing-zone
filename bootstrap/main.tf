@@ -367,6 +367,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
 
     resources = [
       "arn:aws:iam::013310058149:role/terraform-*",
+      "arn:aws:iam::013310058149:policy/terraform-*",
 
     ]
     condition {
