@@ -58,7 +58,7 @@ jobs:
 
           echo "=== TEST 3: full power through the fence (expect success) ==="
           aws iam create-policy --policy-name terraform-probe-admin \
-            --policy-document file://admin.json \
+            --policy-document file://admin.json
           aws iam attach-role-policy --role-name terraform-probe-bounded \
             --policy-arn arn:aws:iam::013310058149:policy/terraform-probe-admin
           echo "attach exit: $?"
