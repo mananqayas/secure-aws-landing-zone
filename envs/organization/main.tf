@@ -30,9 +30,9 @@ module "aws_organization" {
       close_on_deletion = true
     }
     prod = {
-      name   = "Prod"
-      email  = "transivone.official+aws-lz+prod@gmail.com"
-      ou_key = "workloads"
+      name              = "Prod"
+      email             = "transivone.official+aws-lz+prod@gmail.com"
+      ou_key            = "workloads"
       close_on_deletion = false
     }
   }
