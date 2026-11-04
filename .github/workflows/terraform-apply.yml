@@ -9,27 +9,30 @@ permissions:
 env:
   AWS_REGION: "ca-central-1"
 jobs:
-  apply:
+  organization:
+    defaults:
+      run:
+        working-directory: ./envs/organization
     environment: production
     runs-on: ubuntu-24.04
     steps:
     - name: Git clone the repository
       uses: actions/checkout@v4
+
     - name: Configure aws action
       uses: aws-actions/configure-aws-credentials@v6
       with:
         role-to-assume: arn:aws:iam::013310058149:role/apply-role
         aws-region: ${{ env.AWS_REGION }}
-    - name: test aws role assume
-      run: aws sts get-caller-identity
+
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v4
+
     - run: terraform init
-      working-directory: ./terraform
+
     - run: terraform plan && terraform validate
-      working-directory: ./terraform
+
     - run: terraform apply -auto-approve
-      working-directory: ./terraform
 
 
 

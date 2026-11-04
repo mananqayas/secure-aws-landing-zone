@@ -164,7 +164,7 @@ data "aws_iam_policy_document" "s3_policy_for_plan_role" {
   statement {
 
     effect    = "Allow"
-    actions   = ["kms:Decrypt", "kms:DescribeKey"]
+    actions   = ["kms:Decrypt", "kms:DescribeKey", "kms:GenerateDataKey"]
     resources = ["arn:aws:kms:ca-central-1:013310058149:key/4d4fee85-76f6-4b52-a1ec-11f79c983cf8"]
   }
   statement {
