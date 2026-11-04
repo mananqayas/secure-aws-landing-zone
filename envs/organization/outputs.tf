@@ -4,7 +4,6 @@ output "final_ou_inventory" {
 }
 
 output "final_account_ids" {
-
   value       = module.aws_organization.account_ids
   description = "Accounts id registry displayed on terminal output"
 }
