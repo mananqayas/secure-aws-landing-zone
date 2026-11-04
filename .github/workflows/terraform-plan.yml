@@ -16,7 +16,7 @@ jobs:
   plan:
     defaults:
       run:
-        working-directory: ./terraform
+        working-directory: ./envs/organization
     runs-on: ubuntu-24.04
     steps:
       - name: Git clone the respository
