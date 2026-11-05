@@ -96,8 +96,8 @@ jobs:
             })
   members:
     env:
-      MEMBER_ROLE: "terraform-plan"
       AWS_REGION: "ca-central-1"
+      TF_VAR_execution_role_name: "terraform-plan"
     needs: organization
     runs-on: ubuntu-24.04
     strategy:
@@ -138,8 +138,6 @@ jobs:
         id: plan
         run: terraform plan -no-color -input=false
         continue-on-error: true
-        env:
-          TF_VAR_execution_role_name: ${{ env.MEMBER_ROLE }}
       - uses: actions/github-script@v7
         if: github.event_name == 'pull_request'
         env:

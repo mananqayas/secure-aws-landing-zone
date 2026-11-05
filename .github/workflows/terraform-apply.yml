@@ -35,8 +35,8 @@ jobs:
     - run: terraform apply -auto-approve
   members:
     env:
-      MEMBER_ROLE: "terraform-deploy"
       AWS_REGION: "ca-central-1"
+      TF_VAR_execution_role_name: "terraform-deploy"
     needs: organization
     environment: production
     runs-on: ubuntu-24.04
@@ -64,8 +64,5 @@ jobs:
     - run: terraform init
 
     - run: terraform plan && terraform validate
-      env:
-        TF_VAR_execution_role_name: ${{ env.MEMBER_ROLE }}
-
 
     - run: terraform apply -auto-approve
