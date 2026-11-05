@@ -1,7 +1,7 @@
-# Create terraform boundary policy
+#Create terraform boundary policy
 
-# 1. Data source for policy json
-# 2. Create AWS IAM Policy
+#1. Data source for policy json
+#2. Create AWS IAM Policy
 
 data "aws_iam_policy_document" "boundary_policy_document" {
   statement {
