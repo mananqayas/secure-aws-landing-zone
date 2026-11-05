@@ -106,4 +106,5 @@ jobs:
       run:
         working-directory: ${{ matrix.dir }}
     env:
+      # tf var
       TF_VAR_execution_role_name: ${{ env.MEMBER_ROLE }}
