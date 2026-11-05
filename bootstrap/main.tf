@@ -224,6 +224,8 @@ resource "aws_iam_role" "apply_role" {
   name               = "apply-role"
   assume_role_policy = data.aws_iam_policy_document.apply_role_trust_policy.json
 }
+
+# 16. Apply role's IAM Permissions Boundary
 data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
 
   statement {
@@ -325,6 +327,7 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
 
 }
 
+# 17. Apply role's policy document
 data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
 
   statement {
@@ -466,6 +469,8 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
   }
 
 }
+
+# 18. Apply role's permissions boundary policy
 resource "aws_iam_policy" "apply_role_permissions_boundary" {
 
   name   = "terraform-boundary"
@@ -478,12 +483,36 @@ resource "aws_iam_policy" "apply_role_permissions_policy" {
   policy = data.aws_iam_policy_document.apply_role_permissions_policy_doc.json
 }
 
-# 17. Attach IAM policy with the apply role
+# 19. Attach IAM policy with the apply role
 resource "aws_iam_role_policy_attachment" "policy_attachment_apply_role" {
 
   role       = aws_iam_role.apply_role.name
   policy_arn = aws_iam_policy.apply_role_permissions_policy.arn
 }
+# 20. Plan role's cross-account policy doc
+data "aws_iam_policy_document" "plan_role_cross_account_doc" {
 
+
+  statement {
+
+    sid       = "AssumeMemberPlanRoles"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = ["arn:aws:iam::*:role/terraform-plan", "arn:aws:iam::*:role/OrganizationAccountAccessRole"]
+  }
+}
+
+# 21. IAM policy for plan role cross account access
+resource "aws_iam_policy" "plan_role_cross_account_policy" {
+  name   = "plan-role-cross-account-policy"
+  policy = data.aws_iam_policy_document.plan_role_cross_account_doc.json
+}
+
+# 22. Attach policy to the role
+resource "aws_iam_role_policy_attachment" "cross_account_role_assume_policy_attachment" {
+
+  role       = aws_iam_role.plan_role.name
+  policy_arn = aws_iam_policy.plan_role_cross_account_policy.arn
+}
 
 
