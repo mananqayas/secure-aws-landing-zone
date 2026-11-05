@@ -4,7 +4,6 @@
 #2. Create AWS IAM Policy
 
 data "aws_iam_policy_document" "boundary_policy_document" {
-
   statement {
     sid         = "AllowAllButIAM"
     actions     = ["*"]
