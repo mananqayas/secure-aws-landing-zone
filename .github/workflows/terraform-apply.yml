@@ -64,6 +64,8 @@ jobs:
     - run: terraform init
 
     - run: terraform plan && terraform validate
+      env:
+        TF_VAR_execution_role_name: ${{ env.MEMBER_ROLE }}
 
 
     - run: terraform apply -auto-approve
