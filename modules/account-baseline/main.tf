@@ -7,7 +7,6 @@ data "aws_iam_policy_document" "boundary_policy_document" {
 
   statement {
     sid         = "AllowAllButIAM"
-    actions     = ["*"]
     resources   = ["*"]
     not_actions = ["iam:*"]
   }
