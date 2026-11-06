@@ -82,3 +82,39 @@ resource "aws_iam_role_policy_attachment" "plan_readonly" {
   role       = aws_iam_role.terraform_plan.name
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
+
+# 2 policy for terraform-deploy role
+data "aws_iam_policy_document" "deploy_identity_policy_doc" {
+  statement {
+    sid         = "AllowAllButIAM"
+    resources   = ["*"]
+    not_actions = ["iam:*"]
+  }
+}
+
+resource "aws_iam_policy" "deploy_role_policy" {
+  name   = "terraform-deploy-role-policy"
+  policy = data.aws_iam_policy_document.deploy_identity_policy_doc.json
+}
+
+data "aws_iam_policy_document" "deploy_role_assume_policy_doc" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${var.management_account_id}:role/apply-role"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "terraform_deploy_role" {
+  name               = "terraform-deploy"
+  assume_role_policy = data.aws_iam_policy_document.deploy_role_assume_policy_doc.json
+}
+
+resource "aws_iam_role_policy_attachment" "attach_deploy_role_policy" {
+
+  role  = aws_iam_role.terraform_deploy_role.name
+  policy_arn = aws_iam_policy.deploy_role_policy.arn
+}
