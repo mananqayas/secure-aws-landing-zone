@@ -45,6 +45,9 @@ jobs:
       matrix:
         include:
           - { name: dev, dir: ./envs/dev }
+          - { name: audit, dir: ./envs/audit }
+          - { name: log-archive, dir: ./envs/log-archive }
+          - { name: prod, dir: ./envs/prod }
     defaults:
       run:
         working-directory: ${{ matrix.dir }}
