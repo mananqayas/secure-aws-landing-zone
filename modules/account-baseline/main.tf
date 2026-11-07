@@ -105,7 +105,7 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
       "iam:CreatePolicy",
       "iam:CreatePolicyVersion",
       "iam:DeletePolicy",
-      "iam:ListInstanceProfilesForRoles",
+      "iam:ListInstanceProfilesForRole",
       "iam:DeletePolicyVersion",
       "iam:SetDefaultPolicyVersion",
       "iam:DeleteRole",

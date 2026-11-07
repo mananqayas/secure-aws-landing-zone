@@ -1,4 +1,4 @@
-name: Terraform apply jon
+name: Terraform apply job
 on:
   push:
     branches:
