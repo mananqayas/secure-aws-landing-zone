@@ -90,6 +90,63 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
     resources   = ["*"]
     not_actions = ["iam:*"]
   }
+  statement {
+    sid    = "MemberIAMManage"
+    effect = "Allow"
+    actions = [
+      "iam:AttachRolePolicy",
+      "iam:DetachRolePolicy",
+      "iam:CreatePolicy",
+      "iam:CreatePolicyVersion",
+      "iam:DeletePolicy",
+      "iam:DeletePolicyVersion",
+      "iam:SetDefaultPolicyVersion",
+      "iam:DeleteRole",
+      "iam:GetRole",
+      "iam:GetPolicy",
+      "iam:GetPolicyVersion",
+      "iam:ListAttachedRolePolicies",
+      "iam:ListRolePolicies",
+      "iam:ListPolicyVersions",
+      "iam:UpdateRole",
+      "iam:UpdateAssumeRolePolicy",
+      "iam:TagRole",
+      "iam:UntagRole"
+    ]
+    resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/terraform-*", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/terraform-*"
+    ]
+  }
+  statement {
+    sid       = "MemberCreateRole"
+    actions   = ["iam:CreateRole"]
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/terraform-*"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PermissionsBoundary"
+      values   = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/terraform-boundary"]
+    }
+
+  }
+
+  statement {
+    sid    = "MemberProtect"
+    effect = "Deny"
+    not_actions = [
+      "iam:GetRole",
+      "iam:Getpolicy",
+      "iam:GetPolicyVersion",
+      "iam:ListAttachedRolePolicies",
+      "iam:ListRolePolicies",
+      "iam:ListPolicyVersions"
+    ]
+    resources = [
+      aws_iam_policy.boundary_policy.arn,
+      aws_iam_role.terraform_plan.arn,
+      aws_iam_role.terraform_deploy_role.arn,
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/OrganizationAccountAccessRole"
+    ]
+  }
 }
 
 resource "aws_iam_policy" "deploy_role_policy" {
@@ -114,7 +171,48 @@ resource "aws_iam_role" "terraform_deploy_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_deploy_role_policy" {
-
-  role  = aws_iam_role.terraform_deploy_role.name
+  role       = aws_iam_role.terraform_deploy_role.name
   policy_arn = aws_iam_policy.deploy_role_policy.arn
+}
+
+data "aws_iam_policy_document" "oaa_trust" {
+
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${var.management_account_id}:root"]
+    }
+
+  }
+
+}
+resource "aws_iam_role" "oaa" {
+  name                 = "OrganizationAccountAccessRole"
+  assume_role_policy   = data.aws_iam_policy_document.oaa_trust.json
+  permissions_boundary = aws_iam_policy.boundary_policy.arn
+
+  lifecycle {
+    ignore_changes = [
+      assume_role_policy, description, max_session_duration, tags
+    ]
+  }
+
+}
+
+import {
+  to = aws_iam_role.oaa
+  id = "OrganizationAccountAccessRole"
+}
+
+resource "aws_s3_account_public_access_block" "this" {
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_ebs_encryption_by_default" "this" {
+  enabled = true
 }
