@@ -52,7 +52,12 @@ data "aws_iam_policy_document" "boundary_policy_document" {
   }
   statement {
     sid       = "AllowGetRoleOnOAA"
-    actions   = ["iam:GetRole"]
+    actions   = [
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies"
+    ]
     resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/OrganizationAccountAccessRole"]
   }
 }
@@ -150,7 +155,10 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
 
   statement {
     sid       = "AllowGetRoleOnOAA"
-    actions   = ["iam:GetRole"]
+    actions   = [
+      "iam:GetRole",
+      "iam:ListRolePolicies"
+    ]
     resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/OrganizationAccountAccessRole"]
   }
 }
