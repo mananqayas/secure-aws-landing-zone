@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
   }
   statement {
     sid    = "MemberIAMManage"
-    effect = "allow"
+    effect = "Allow"
     actions = [
       "iam:AttachRolePolicy",
       "iam:DetachRolePolicy",
