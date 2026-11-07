@@ -52,8 +52,8 @@ data "aws_iam_policy_document" "boundary_policy_document" {
     }
   }
   statement {
-    sid       = "AllowGetRoleOnOAA"
-    actions   = [
+    sid = "AllowGetRoleOnOAA"
+    actions = [
       "iam:GetRole",
       "iam:ListRolePolicies",
       "iam:GetRolePolicy",
@@ -105,6 +105,7 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
       "iam:CreatePolicy",
       "iam:CreatePolicyVersion",
       "iam:DeletePolicy",
+      "iam:ListInstanceProfilesForRoles",
       "iam:DeletePolicyVersion",
       "iam:SetDefaultPolicyVersion",
       "iam:DeleteRole",
@@ -155,10 +156,12 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
   }
 
   statement {
-    sid       = "AllowGetRoleOnOAA"
-    actions   = [
+    sid = "AllowGetRoleOnOAA"
+    actions = [
       "iam:GetRole",
-      "iam:ListRolePolicies"
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies"
     ]
     resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/OrganizationAccountAccessRole"]
   }
@@ -181,8 +184,8 @@ data "aws_iam_policy_document" "deploy_role_assume_policy_doc" {
 }
 
 resource "aws_iam_role" "terraform_deploy_role" {
-  name               = "terraform-deploy"
-  assume_role_policy = data.aws_iam_policy_document.deploy_role_assume_policy_doc.json
+  name                 = "terraform-deploy"
+  assume_role_policy   = data.aws_iam_policy_document.deploy_role_assume_policy_doc.json
   permissions_boundary = aws_iam_policy.boundary_policy.arn
 }
 
