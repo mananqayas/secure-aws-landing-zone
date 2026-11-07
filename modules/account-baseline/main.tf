@@ -22,6 +22,7 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       "iam:CreatePolicyVersion",
       "iam:DeletePolicy",
       "iam:DeletePolicyVersion",
+      "iam:ListInstanceProfilesForRole",
       "iam:SetDefaultPolicyVersion",
       "iam:DeleteRole",
       "iam:GetRole",
