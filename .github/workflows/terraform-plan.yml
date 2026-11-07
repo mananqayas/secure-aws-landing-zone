@@ -66,7 +66,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `### Terraform Format and Style 🖌\`${process.env.FMT_OUTCOME}\`
+            const output = `## 📋 Plan — organization  
+            ### Terraform Format and Style 🖌\`${process.env.FMT_OUTCOME}\`
             ### Terraform Initialization \`${process.env.INIT_OUTCOME}\`
             ### Terraform Validation \`${process.env.VALIDATE_OUTCOME}\`
             <details><summary>Validation output</summary>
@@ -105,6 +106,9 @@ jobs:
       matrix:
         include:
           - { name: dev, dir: ./envs/dev }
+          - { name: audit, dir: ./envs/audit }
+          - { name: log-archive, dir: ./envs/log-archive }
+          - { name: prod, dir: ./envs/prod }
     defaults:
       run:
         working-directory: ${{ matrix.dir }}
@@ -154,7 +158,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `### Terraform Format and Style 🖌\`${process.env.FMT_OUTCOME}\`
+            const output = `## 📋Plan — ${{ matrix.name }} (\`${{ matrix.dir }}\`)
+            ### Terraform Format and Style 🖌\`${process.env.FMT_OUTCOME}\`
             ### Terraform Initialization \`${process.env.INIT_OUTCOME}\`
             ### Terraform Validation \`${process.env.VALIDATE_OUTCOME}\`
             <details><summary>Validation output</summary>
