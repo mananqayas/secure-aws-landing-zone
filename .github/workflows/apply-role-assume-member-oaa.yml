@@ -1,0 +1,60 @@
+name: Negative test for apply role
+
+on:
+  workflow_dispatch
+permissions:
+  id-token: write
+  contents: read
+env:
+  AWS_REGION: "ca-central-1"
+  MEMBER_ACCOUNT_ID: "102199089014"
+jobs:
+  test_plan_role:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v4
+
+    - name: Configure aws action
+      uses: aws-actions/configure-aws-credentials@v6
+      with:
+          role-to-assume: arn:aws:iam::013310058149:role/plan-role
+          aws-region: ${{ env.AWS_REGION }}
+
+    - name: Get the role identity
+      run: aws sts get-caller-identity
+
+    - name: Plan role assuming OAA role in a member account
+      run: |
+          if ! aws sts assume-role --role-arn arn:aws:iam::${{ env.MEMBER_ACCOUNT_ID }}:role/OrganizationAccountAccessRole --role-session-name memberaccountsession; then
+            echo "PASS: plan-role was denied assuming OAA role in a member account"
+          else
+            echo "FAIL: plan-role assumed OAA role in a member account"
+            exit 1
+          fi
+
+  test_apply_role:
+    runs-on: ubuntu-24.04
+    environment: production
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v4
+
+    - name: Configure aws action
+      uses: aws-actions/configure-aws-credentials@v6
+      with:
+          role-to-assume: arn:aws:iam::013310058149:role/apply-role
+          aws-region: ${{ env.AWS_REGION }}
+
+    - name: Get the role identity
+      run: aws sts get-caller-identity
+
+    - name: Plan role assuming OAA role in a member account
+      run: |
+          if ! aws sts assume-role --role-arn arn:aws:iam::${{ env.MEMBER_ACCOUNT_ID }}:role/OrganizationAccountAccessRole --role-session-name memberaccountsession; then
+            echo "PASS: apply-role was denied assuming OAA role in a member account"
+          else
+            echo "FAIL: apply-role assumed OAA role in a member account"
+            exit 1
+          fi
+

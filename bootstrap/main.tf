@@ -444,7 +444,6 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "sts:AssumeRole"
     ]
     resources = [
-      "arn:aws:iam::*:role/OrganizationAccountAccessRole",
       "arn:aws:iam::*:role/terraform-deploy"
     ]
   }
