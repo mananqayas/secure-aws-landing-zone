@@ -21,7 +21,7 @@ We must establish a structural blueprint that adheres to the **AWS Security Refe
 Deploy a single organizational structure with single accounts containing mixed environments (Dev/Prod) and unified log/security monitoring setups.
 
 * *Pros:* Simple to orchestrate via Terraform; minimal multi-account cross-role configuration overhead.
-* *Cons:* Severe violation of AWS SRAl compromised developer instances can sniff production traffic or access centralized logs; high blast radius.
+* *Cons:* Severe violation of AWS SRA. The Compromised developer instances can sniff production traffic or access centralized logs; high blast radius.
 
 ### Option 2: AWS SRA-Aligned 3-OU Pattern with Functional Separation and Lifecycle Controls (Chosen)
 Implement a streamlined AWS SRA pattern utilizing exactly 3 OUS (`Security`, `Workloads`, `Suspended`), dedicated decoupled core accounts (`Log Arhive`, `Audit`), localized deployment home-region constraints (`ca-central-1`), and explicit account termination behaviors.
@@ -44,7 +44,7 @@ Root
 │    └── Prod Account
 └── 🛑 Suspended OU (Quarantine zone / Deny-All SCP incoming in Phase 2.3)
 ```
-1. **Strict Decoupling of Security Accounts (`Log Archive` `Audit`):**
+1. **Strict Decoupling of Security Accounts (`Log Archive` / `Audit`):**
 
 Following the AWS SRA blueprint, the `Log Archive` and `Audit` accounts are completely split.
 

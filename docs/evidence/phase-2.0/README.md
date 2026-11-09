@@ -1,6 +1,6 @@
 # Phase 2.0: Advanced GitOps Security: Multi-role Federation & Privilege Escalation Guardrails
 
-The CI/CD engine splits execution into **two distinct workflows** with isolated IAM identitis, completely decoupling the execution of `terraform plan` from `terraform apply`. This enforces a zero-trust model where a read-only process cannot modify state or infrastructure.
+The CI/CD engine splits execution into **two distinct workflows** with isolated IAM identities, completely decoupling the execution of `terraform plan` from `terraform apply`. This enforces a zero-trust model where a read-only process cannot modify state or infrastructure.
 
 ```
 Feature Branch (Push) ──> 🛡️ Plan Workflow ──> Assumes Read-Only Roles (S3 State + AWS Orgs/Members)
@@ -17,13 +17,13 @@ Main Branch (Approved) ──> 🚀 Apply Workflow ─> Assumes Management Apply
 
 * [X] Built 3 Organizational Units (Security, Workloads, and Suspended), 4 accounts (Audit, Log Archive, Dev and Prod) using Terraform modular configurations automated provisioning via GitHub Actions
 
-![Org Structure](./org-structure.txt)
+[Org Structure](./org-structure.txt)
 
 [PR #30] (https://github.com/mananqayas/secure-aws-landing-zone/pull/30)
 
-* [X] Provisioned AWS IAM Identity Center (SSO) for human access using short-lived credentails
+* [X] Provisioned AWS IAM Identity Center (SSO) for human access using short-lived credentials
 
-* [X] Authored least privileges terraform plan and apply roles inside management account using bootstrap terraform configurations via SSO cli access
+* [X] Authored least privileged `terraform plan` and `terraform apply` roles inside management account using bootstrap terraform configurations via AWS CLI SSO access
 
 All infrastructure after bootstrap is provisioned via CI (GitHub Actions + OIDC trust with AWS), local applies only as documented operator exceptions (state-import recovery, boundary targeted unlock, deploy-role -replace).
 
@@ -35,11 +35,11 @@ PRs for this setup (#30 to #45)
 
 * [X] Permissions boundary policies are created for roles in management and member accounts following principle of least privilege to prevent privilege escalation
 
-![Boundary celing simulation](./boundary-celing-simulation.png)
+![Boundary ceiling simulation](./boundary-ceiling-simulation.png)
 
-* [X] Every member account is baselined using a dedicated Terraform module named ([account-baseline](../../../modules/account-baseline/)) and graduate them once baselined
+* [X] Every member account is baselined using a dedicated Terraform module named ( [account-baseline](../../../modules/account-baseline/) ) and graduate them once baselined
 
-Subsequent plan and apply inside member account are done via member `terraform plan` and `terraform apply` roles.
+Subsequent plan and apply inside member accounts are done via member `terraform plan` and `terraform apply` roles.
 
 PRS #44 and #45
 

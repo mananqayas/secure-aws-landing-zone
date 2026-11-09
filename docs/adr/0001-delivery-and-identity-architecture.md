@@ -17,7 +17,7 @@ We are establishing an automated, multi-account AWS Landing Zone managed via Ter
 
 ## Options Considered
 
-### Option 1: Monolithic Deployment Identity with Universal State Acccess
+### Option 1: Monolithic Deployment Identity with Universal State Access
 Utilize a single, highly privileged IAM role assumed via OIDC across all branches, storing all account state files in a single S3 bucket sharing a master KSM key.
 
 * *Pros:* Low operational complexity; highly straightforward GitHub Actions configurations.
@@ -34,10 +34,10 @@ We selected **Option 2**. The security mandate of a resilient multi-account land
 
 ## Implementation Specifics
 * **Dual-Role OIDC Trust:** GitHub Actions authenticates via OpenID Connect. Feature branch pushes assume a read-only `plan-role` role. Merges to the `main` branch require a GitHub Production Environment manual approval gate escalating to the `apply-role` role. 
-* **The Boostrap Sequence Exception:** Initial infrastructure is stood up by a human administrator leveraging temporary AWS IAM Identity Center (SSO) Administrator privileges. The Management Account's `apply-role` pipeline uses this access to assume the native `OrganizationAccountAccessRole` (OAAR) inside new member accounts.
+* **The Bootstrap Sequence Exception:** Initial infrastructure is stood up by a human administrator leveraging temporary AWS IAM Identity Center (SSO) Administrator privileges. The Management Account's `apply-role` pipeline uses this access to assume the native `OrganizationAccountAccessRole` (OAAR) inside new member accounts.
 * **The "Born-With-Boundary" Pattern:** The management pipeline use its OAAR access to construct localized `terraform-plan` and `terraform-deploy` roles inside the member accounts. Crucially, every role created is appended with a `terraform-boundary` **Permissions Boundary**. This boundary strictly dictates that the deployment engine can never delete core security controls, alter its own boundary, or escalate its permissions.
 * **Dismantling Bootstrapping Access:** Once member account baselines and roles are fully instantiated, the global OAAR trust and human SSO admin access are **permanently removed**. Day-2 operations rely exclusively on the Management Account's `apply-role` role assuming the newly minted, boundary-restricted member roles.
-* **State Isolation:** Terraform states are segregated into specific paths, org, bootstrap, and members
+* **State Isolation:** Terraform states are segregated into specific paths, org, bootstrap, and members.
 
 ## Trade-offs & Consequences
 * **Zero Static Credentials:** Eliminiating long-lived access keys neutralizes the single greatest vector for cloud repository breaches.
