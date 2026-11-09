@@ -49,7 +49,7 @@ jobs:
     - name: Get the role identity
       run: aws sts get-caller-identity
 
-    - name: Plan role assuming OAA role in a member account
+    - name: Apply role assuming OAA role in a member account
       run: |
           if ! aws sts assume-role --role-arn arn:aws:iam::${{ env.MEMBER_ACCOUNT_ID }}:role/OrganizationAccountAccessRole --role-session-name memberaccountsession; then
             echo "PASS: apply-role was denied assuming OAA role in a member account"
