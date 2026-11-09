@@ -1,0 +1,94 @@
+{
+    "OrganizationalUnits": [
+        {
+            "Id": "ou-idl1-55k0anf4",
+            "Arn": "arn:aws:organizations::013310058149:ou/o-4nhn73sdcv/ou-idl1-55k0anf4",
+            "Name": "Workloads",
+            "Path": "o-4nhn73sdcv/r-idl1/ou-idl1-55k0anf4/"
+        },
+        {
+            "Id": "ou-idl1-jozfbkyj",
+            "Arn": "arn:aws:organizations::013310058149:ou/o-4nhn73sdcv/ou-idl1-jozfbkyj",
+            "Name": "Security",
+            "Path": "o-4nhn73sdcv/r-idl1/ou-idl1-jozfbkyj/"
+        },
+        {
+            "Id": "ou-idl1-u2nyx1s1",
+            "Arn": "arn:aws:organizations::013310058149:ou/o-4nhn73sdcv/ou-idl1-u2nyx1s1",
+            "Name": "Suspended",
+            "Path": "o-4nhn73sdcv/r-idl1/ou-idl1-u2nyx1s1/"
+        }
+    ]
+}
+
+# Accounts in Workloads OU
+
+{
+    "Accounts": [
+        {
+            "Id": "102199089014",
+            "Arn": "arn:aws:organizations::013310058149:account/o-4nhn73sdcv/102199089014",
+            "Email": "xxxx",
+            "Name": "Dev",
+            "Status": "ACTIVE",
+            "State": "ACTIVE",
+            "Paths": [
+                "o-4nhn73sdcv/r-idl1/ou-idl1-55k0anf4/102199089014/"
+            ],
+            "JoinedMethod": "CREATED",
+            "JoinedTimestamp": "2026-11-04T16:39:03.464000-05:00"
+        },
+        {
+            "Id": "503440159390",
+            "Arn": "arn:aws:organizations::013310058149:account/o-4nhn73sdcv/503440159390",
+            "Email": "xxxx",
+            "Name": "Prod",
+            "Status": "ACTIVE",
+            "State": "ACTIVE",
+            "Paths": [
+                "o-4nhn73sdcv/r-idl1/ou-idl1-55k0anf4/503440159390/"
+            ],
+            "JoinedMethod": "CREATED",
+            "JoinedTimestamp": "2026-11-04T16:38:44.286000-05:00"
+        }
+    ]
+}
+
+# Accounts in Security OU
+
+{
+    "Accounts": [
+        {
+            "Id": "996560370921",
+            "Arn": "arn:aws:organizations::013310058149:account/o-4nhn73sdcv/996560370921",
+            "Email": "xxx",
+            "Name": "Audit",
+            "Status": "ACTIVE",
+            "State": "ACTIVE",
+            "Paths": [
+                "o-4nhn73sdcv/r-idl1/ou-idl1-jozfbkyj/996560370921/"
+            ],
+            "JoinedMethod": "CREATED",
+            "JoinedTimestamp": "2026-11-04T16:38:44.914000-05:00"
+        },
+        {
+            "Id": "408873346185",
+            "Arn": "arn:aws:organizations::013310058149:account/o-4nhn73sdcv/408873346185",
+            "Email": "xxx",
+            "Name": "Log Archive",
+            "Status": "ACTIVE",
+            "State": "ACTIVE",
+            "Paths": [
+                "o-4nhn73sdcv/r-idl1/ou-idl1-jozfbkyj/408873346185/"
+            ],
+            "JoinedMethod": "CREATED",
+            "JoinedTimestamp": "2026-11-04T16:38:47.913000-05:00"
+        }
+    ]
+}
+
+# Accounts in Suspended OU
+
+{
+    "Accounts": []
+}
