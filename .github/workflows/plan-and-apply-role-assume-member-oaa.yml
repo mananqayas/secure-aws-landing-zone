@@ -1,4 +1,4 @@
-name: Negative test for apply role
+name: Negative test for plan and apply roles
 
 on:
   workflow_dispatch
