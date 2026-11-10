@@ -1,0 +1,269 @@
+2026-11-10T23:07:37.3139251Z Current runner version: '2.338.2'
+2026-11-10T23:07:37.3163183Z ##[group]Runner Image Provisioner
+2026-11-10T23:07:37.3164101Z Hosted Compute Agent
+2026-11-10T23:07:37.3164730Z Version: 20261028.624
+2026-11-10T23:07:37.3165436Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-10T23:07:37.3166193Z Build Date: 2026-10-28T21:51:42Z
+2026-11-10T23:07:37.3166998Z Worker ID: {3dcb489b-6f30-4e3e-b898-f0317aea9695}
+2026-11-10T23:07:37.3167737Z Region: westcentralus
+2026-11-10T23:07:37.3168307Z Cloud: Azure
+2026-11-10T23:07:37.3168885Z ##[endgroup]
+2026-11-10T23:07:37.3170676Z ##[group]Operating System
+2026-11-10T23:07:37.3171353Z Ubuntu
+2026-11-10T23:07:37.3172309Z 24.04.5
+2026-11-10T23:07:37.3172826Z LTS
+2026-11-10T23:07:37.3173376Z ##[endgroup]
+2026-11-10T23:07:37.3173954Z ##[group]Runner Image
+2026-11-10T23:07:37.3174613Z Image: ubuntu-24.04
+2026-11-10T23:07:37.3175242Z Version: 20261101.360.1
+2026-11-10T23:07:37.3176491Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-10T23:07:37.3178133Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-10T23:07:37.3179135Z ##[endgroup]
+2026-11-10T23:07:37.3180659Z ##[group]GITHUB_TOKEN Permissions
+2026-11-10T23:07:37.3183035Z Contents: read
+2026-11-10T23:07:37.3183748Z Metadata: read
+2026-11-10T23:07:37.3184351Z ##[endgroup]
+2026-11-10T23:07:37.3186444Z Secret source: Actions
+2026-11-10T23:07:37.3187484Z Cache mode: write
+2026-11-10T23:07:37.3188432Z Prepare workflow directory
+2026-11-10T23:07:37.3644138Z Prepare all required actions
+2026-11-10T23:07:37.3691946Z Getting action download info
+2026-11-10T23:07:37.6705699Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-10T23:07:37.7812733Z Download action repository 'aws-actions/configure-aws-credentials@v6' (SHA:e1253824e5c10ff9df46874f81ed3ec929e19cfd)
+2026-11-10T23:07:38.3488116Z Complete job name: probe
+2026-11-10T23:07:38.4383130Z ##[group]Run actions/checkout@v4
+2026-11-10T23:07:38.4384392Z with:
+2026-11-10T23:07:38.4384963Z   repository: mananqayas/secure-aws-landing-zone
+2026-11-10T23:07:38.4389129Z   token: ***
+2026-11-10T23:07:38.4389612Z   ssh-strict: true
+2026-11-10T23:07:38.4390089Z   ssh-user: git
+2026-11-10T23:07:38.4390575Z   persist-credentials: true
+2026-11-10T23:07:38.4391096Z   clean: true
+2026-11-10T23:07:38.4391830Z   sparse-checkout-cone-mode: true
+2026-11-10T23:07:38.4392400Z   fetch-depth: 1
+2026-11-10T23:07:38.4392866Z   fetch-tags: false
+2026-11-10T23:07:38.4393345Z   show-progress: true
+2026-11-10T23:07:38.4393822Z   lfs: false
+2026-11-10T23:07:38.4394282Z   submodules: false
+2026-11-10T23:07:38.4394780Z   set-safe-directory: true
+2026-11-10T23:07:38.4395322Z   allow-unsafe-pr-checkout: false
+2026-11-10T23:07:38.4396186Z env:
+2026-11-10T23:07:38.4396660Z   AWS_REGION: ca-central-1
+2026-11-10T23:07:38.4397213Z   PROBE_ROLE: terraform-probe
+2026-11-10T23:07:38.4397967Z   BOUNDARY_ARN: arn:aws:iam::013310058149:policy/terraform-boundary
+2026-11-10T23:07:38.4399255Z   TRUST_POLICY: {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+2026-11-10T23:07:38.4400368Z ##[endgroup]
+2026-11-10T23:07:38.7101120Z Syncing repository: mananqayas/secure-aws-landing-zone
+2026-11-10T23:07:38.7103536Z ##[group]Getting Git version info
+2026-11-10T23:07:38.7104532Z Working directory is '/home/runner/work/secure-aws-landing-zone/secure-aws-landing-zone'
+2026-11-10T23:07:38.7105846Z [command]/usr/bin/git version
+2026-11-10T23:07:38.7171967Z git version 2.56.0
+2026-11-10T23:07:38.7196399Z ##[endgroup]
+2026-11-10T23:07:38.7219953Z Temporarily overriding HOME='/home/runner/work/_temp/df24db56-7b6c-4eca-9d09-6ad250b70b22' before making global git config changes
+2026-11-10T23:07:38.7228838Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T23:07:38.7231290Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/secure-aws-landing-zone/secure-aws-landing-zone
+2026-11-10T23:07:38.7284846Z Deleting the contents of '/home/runner/work/secure-aws-landing-zone/secure-aws-landing-zone'
+2026-11-10T23:07:38.7290505Z ##[group]Initializing the repository
+2026-11-10T23:07:38.7292354Z [command]/usr/bin/git init /home/runner/work/secure-aws-landing-zone/secure-aws-landing-zone
+2026-11-10T23:07:38.7422815Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-10T23:07:38.7424922Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-10T23:07:38.7426864Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-10T23:07:38.7428355Z hint: call:
+2026-11-10T23:07:38.7429293Z hint:
+2026-11-10T23:07:38.7430429Z hint: 	git config --global init.defaultBranch <name>
+2026-11-10T23:07:38.7431886Z hint:
+2026-11-10T23:07:38.7433463Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-10T23:07:38.7435640Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-10T23:07:38.7437298Z hint:
+2026-11-10T23:07:38.7438235Z hint: 	git branch -m <name>
+2026-11-10T23:07:38.7439575Z hint:
+2026-11-10T23:07:38.7441022Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-10T23:07:38.7444011Z Initialized empty Git repository in /home/runner/work/secure-aws-landing-zone/secure-aws-landing-zone/.git/
+2026-11-10T23:07:38.7495760Z [command]/usr/bin/git remote add origin https://github.com/mananqayas/secure-aws-landing-zone
+2026-11-10T23:07:38.7499397Z ##[endgroup]
+2026-11-10T23:07:38.7501154Z ##[group]Disabling automatic garbage collection
+2026-11-10T23:07:38.7502890Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-10T23:07:38.7537875Z ##[endgroup]
+2026-11-10T23:07:38.7539489Z ##[group]Setting up auth
+2026-11-10T23:07:38.7546457Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T23:07:38.7585926Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T23:07:38.8015054Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T23:07:38.8061051Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T23:07:38.8305887Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T23:07:38.8352122Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T23:07:38.8593120Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-10T23:07:38.8642237Z ##[endgroup]
+2026-11-10T23:07:38.8643124Z ##[group]Fetching the repository
+2026-11-10T23:07:38.8654930Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a4999f3566afb2d2768f38f579ebd8c9c7299cd9:refs/remotes/origin/main
+2026-11-10T23:07:39.4459739Z From https://github.com/mananqayas/secure-aws-landing-zone
+2026-11-10T23:07:39.4462844Z  * [new ref]         a4999f3566afb2d2768f38f579ebd8c9c7299cd9 -> origin/main
+2026-11-10T23:07:39.4468407Z ##[endgroup]
+2026-11-10T23:07:39.4471110Z ##[group]Determining the checkout info
+2026-11-10T23:07:39.4474319Z ##[endgroup]
+2026-11-10T23:07:39.4477836Z [command]/usr/bin/git sparse-checkout disable
+2026-11-10T23:07:39.4541846Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-10T23:07:39.4584014Z ##[group]Checking out the ref
+2026-11-10T23:07:39.4585502Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-10T23:07:39.4741881Z Switched to a new branch 'main'
+2026-11-10T23:07:39.4747972Z branch 'main' set up to track 'origin/main'.
+2026-11-10T23:07:39.4755983Z ##[endgroup]
+2026-11-10T23:07:39.4805022Z [command]/usr/bin/git log -1 --format=%H
+2026-11-10T23:07:39.4839649Z a4999f3566afb2d2768f38f579ebd8c9c7299cd9
+2026-11-10T23:07:39.5296382Z ##[group]Run aws-actions/configure-aws-credentials@v6
+2026-11-10T23:07:39.5297862Z with:
+2026-11-10T23:07:39.5371336Z   role-to-assume: arn:aws:iam::013310058149:role/apply-role
+2026-11-10T23:07:39.5373125Z   aws-region: ca-central-1
+2026-11-10T23:07:39.5374250Z   audience: sts.amazonaws.com
+2026-11-10T23:07:39.5375370Z env:
+2026-11-10T23:07:39.5376242Z   AWS_REGION: ca-central-1
+2026-11-10T23:07:39.5377353Z   PROBE_ROLE: terraform-probe
+2026-11-10T23:07:39.5378824Z   BOUNDARY_ARN: arn:aws:iam::013310058149:policy/terraform-boundary
+2026-11-10T23:07:39.5381848Z   TRUST_POLICY: {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+2026-11-10T23:07:39.5384388Z ##[endgroup]
+2026-11-10T23:07:39.8962255Z Assuming role with OIDC
+2026-11-10T23:07:40.1412600Z Authenticated as assumedRoleId AROAQGGKXL2S4IBMTHNSY:GitHubActions
+2026-11-10T23:07:40.3589749Z ##[group]Run aws sts get-caller-identity
+2026-11-10T23:07:40.3591214Z [36;1maws sts get-caller-identity[0m
+2026-11-10T23:07:40.3616827Z shell: /usr/bin/bash -e {0}
+2026-11-10T23:07:40.3617961Z env:
+2026-11-10T23:07:40.3618879Z   AWS_REGION: ca-central-1
+2026-11-10T23:07:40.3620018Z   PROBE_ROLE: terraform-probe
+2026-11-10T23:07:40.3621841Z   BOUNDARY_ARN: arn:aws:iam::013310058149:policy/terraform-boundary
+2026-11-10T23:07:40.3624670Z   TRUST_POLICY: {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+2026-11-10T23:07:40.3627196Z   AWS_DEFAULT_REGION: ca-central-1
+2026-11-10T23:07:40.3628713Z   AWS_ACCESS_KEY_ID: ***
+2026-11-10T23:07:40.3630131Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-10T23:07:40.3650812Z   AWS_SESSION_TOKEN: ***
+2026-11-10T23:07:40.3652021Z ##[endgroup]
+2026-11-10T23:07:43.9400462Z {
+2026-11-10T23:07:43.9401194Z     "UserId": "AROAQGGKXL2S4IBMTHNSY:GitHubActions",
+2026-11-10T23:07:43.9402272Z     "Account": "013310058149",
+2026-11-10T23:07:43.9408117Z     "Arn": "arn:aws:sts::013310058149:assumed-role/apply-role/GitHubActions"
+2026-11-10T23:07:43.9408893Z }
+2026-11-10T23:07:44.0092859Z ##[group]Run if aws iam create-role --role-name "$PROBE_ROLE" --assume-role-policy-document "$TRUST_POLICY" --description "boundary probe - no boundary"; then
+2026-11-10T23:07:44.0094071Z [36;1mif aws iam create-role --role-name "$PROBE_ROLE" --assume-role-policy-document "$TRUST_POLICY" --description "boundary probe - no boundary"; then[0m
+2026-11-10T23:07:44.0094928Z [36;1m  echo "FAIL: CreateRole succeeded WITHOUT a permissions boundary - the gate is broken"[0m
+2026-11-10T23:07:44.0095384Z [36;1m  exit 1[0m
+2026-11-10T23:07:44.0095591Z [36;1melse[0m
+2026-11-10T23:07:44.0095962Z [36;1m  echo "PASS: CreateRole without a permissions boundary was denied, as designed"[0m
+2026-11-10T23:07:44.0096405Z [36;1mfi[0m
+2026-11-10T23:07:44.0115962Z shell: /usr/bin/bash -e {0}
+2026-11-10T23:07:44.0116231Z env:
+2026-11-10T23:07:44.0116458Z   AWS_REGION: ca-central-1
+2026-11-10T23:07:44.0116746Z   PROBE_ROLE: terraform-probe
+2026-11-10T23:07:44.0117128Z   BOUNDARY_ARN: arn:aws:iam::013310058149:policy/terraform-boundary
+2026-11-10T23:07:44.0117809Z   TRUST_POLICY: {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+2026-11-10T23:07:44.0118415Z   AWS_DEFAULT_REGION: ca-central-1
+2026-11-10T23:07:44.0118830Z   AWS_ACCESS_KEY_ID: ***
+2026-11-10T23:07:44.0119177Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-10T23:07:44.0124647Z   AWS_SESSION_TOKEN: ***
+2026-11-10T23:07:44.0124906Z ##[endgroup]
+2026-11-10T23:07:44.8192362Z 
+2026-11-10T23:07:44.8195626Z aws: [ERROR]: An error occurred (AccessDenied) when calling the CreateRole operation: User: arn:aws:sts::013310058149:assumed-role/apply-role/GitHubActions is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::013310058149:role/terraform-probe because no identity-based policy allows the iam:CreateRole action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/5k7arhaz0ww6319pcrj2thanm for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 5k7arhaz0ww6319pcrj2thanm
+2026-11-10T23:07:44.8924656Z PASS: CreateRole without a permissions boundary was denied, as designed
+2026-11-10T23:07:44.8993726Z ##[group]Run aws iam create-role --role-name "$PROBE_ROLE" --assume-role-policy-document "$TRUST_POLICY" --permissions-boundary "arn:aws:iam::013310058149:policy/terraform-boundary" --description "boundary probe - with boundary"
+2026-11-10T23:07:44.8995400Z [36;1maws iam create-role --role-name "$PROBE_ROLE" --assume-role-policy-document "$TRUST_POLICY" --permissions-boundary "arn:aws:iam::013310058149:policy/terraform-boundary" --description "boundary probe - with boundary"[0m
+2026-11-10T23:07:44.8996406Z [36;1maws iam get-role --role-name "terraform-probe"[0m
+2026-11-10T23:07:44.8996839Z [36;1maws iam delete-role --role-name "terraform-probe"[0m
+2026-11-10T23:07:44.8997262Z [36;1mecho "Control role create with the boundary and deleted"[0m
+2026-11-10T23:07:44.9016479Z shell: /usr/bin/bash -e {0}
+2026-11-10T23:07:44.9016746Z env:
+2026-11-10T23:07:44.9016963Z   AWS_REGION: ca-central-1
+2026-11-10T23:07:44.9017223Z   PROBE_ROLE: terraform-probe
+2026-11-10T23:07:44.9017598Z   BOUNDARY_ARN: arn:aws:iam::013310058149:policy/terraform-boundary
+2026-11-10T23:07:44.9018280Z   TRUST_POLICY: {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+2026-11-10T23:07:44.9018914Z   AWS_DEFAULT_REGION: ca-central-1
+2026-11-10T23:07:44.9019279Z   AWS_ACCESS_KEY_ID: ***
+2026-11-10T23:07:44.9019620Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-10T23:07:44.9024778Z   AWS_SESSION_TOKEN: ***
+2026-11-10T23:07:44.9025024Z ##[endgroup]
+2026-11-10T23:07:45.6775683Z {
+2026-11-10T23:07:45.6776622Z     "Role": {
+2026-11-10T23:07:45.6777060Z         "Path": "/",
+2026-11-10T23:07:45.6777396Z         "RoleName": "terraform-probe",
+2026-11-10T23:07:45.6777780Z         "RoleId": "AROAQGGKXL2S3KACLCLIC",
+2026-11-10T23:07:45.6778268Z         "Arn": "arn:aws:iam::013310058149:role/terraform-probe",
+2026-11-10T23:07:45.6778729Z         "CreateDate": "2026-11-10T23:07:45+00:00",
+2026-11-10T23:07:45.6779125Z         "AssumeRolePolicyDocument": {
+2026-11-10T23:07:45.6779497Z             "Version": "2012-10-17",
+2026-11-10T23:07:45.6779834Z             "Statement": [
+2026-11-10T23:07:45.6780117Z                 {
+2026-11-10T23:07:45.6780397Z                     "Effect": "Allow",
+2026-11-10T23:07:45.6780732Z                     "Principal": {
+2026-11-10T23:07:45.6781095Z                         "Service": "ec2.amazonaws.com"
+2026-11-10T23:07:45.6781755Z                     },
+2026-11-10T23:07:45.6782176Z                     "Action": "sts:AssumeRole"
+2026-11-10T23:07:45.6782530Z                 }
+2026-11-10T23:07:45.6782788Z             ]
+2026-11-10T23:07:45.6783635Z         },
+2026-11-10T23:07:45.6784352Z         "PermissionsBoundary": {
+2026-11-10T23:07:45.6784925Z             "PermissionsBoundaryType": "Policy",
+2026-11-10T23:07:45.6786004Z             "PermissionsBoundaryArn": "arn:aws:iam::013310058149:policy/terraform-boundary"
+2026-11-10T23:07:45.6786805Z         }
+2026-11-10T23:07:45.6787145Z     }
+2026-11-10T23:07:45.6787481Z }
+2026-11-10T23:07:46.4807222Z {
+2026-11-10T23:07:46.4807605Z     "Role": {
+2026-11-10T23:07:46.4807875Z         "Path": "/",
+2026-11-10T23:07:46.4808174Z         "RoleName": "terraform-probe",
+2026-11-10T23:07:46.4808578Z         "RoleId": "AROAQGGKXL2S3KACLCLIC",
+2026-11-10T23:07:46.4809069Z         "Arn": "arn:aws:iam::013310058149:role/terraform-probe",
+2026-11-10T23:07:46.4809507Z         "CreateDate": "2026-11-10T23:07:45+00:00",
+2026-11-10T23:07:46.4809880Z         "AssumeRolePolicyDocument": {
+2026-11-10T23:07:46.4810211Z             "Version": "2012-10-17",
+2026-11-10T23:07:46.4810872Z             "Statement": [
+2026-11-10T23:07:46.4811142Z                 {
+2026-11-10T23:07:46.4811399Z                     "Effect": "Allow",
+2026-11-10T23:07:46.4812151Z                     "Principal": {
+2026-11-10T23:07:46.4812605Z                         "Service": "ec2.amazonaws.com"
+2026-11-10T23:07:46.4812958Z                     },
+2026-11-10T23:07:46.4813234Z                     "Action": "sts:AssumeRole"
+2026-11-10T23:07:46.4813819Z                 }
+2026-11-10T23:07:46.4814066Z             ]
+2026-11-10T23:07:46.4814291Z         },
+2026-11-10T23:07:46.4814588Z         "Description": "boundary probe - with boundary",
+2026-11-10T23:07:46.4814981Z         "MaxSessionDuration": 3600,
+2026-11-10T23:07:46.4815306Z         "PermissionsBoundary": {
+2026-11-10T23:07:46.4815655Z             "PermissionsBoundaryType": "Policy",
+2026-11-10T23:07:46.4816206Z             "PermissionsBoundaryArn": "arn:aws:iam::013310058149:policy/terraform-boundary"
+2026-11-10T23:07:46.4816840Z         },
+2026-11-10T23:07:46.4817084Z         "RoleLastUsed": {}
+2026-11-10T23:07:46.4817361Z     }
+2026-11-10T23:07:46.4817596Z }
+2026-11-10T23:07:47.4163575Z Control role create with the boundary and deleted
+2026-11-10T23:07:47.4198534Z ##[group]Run if aws iam get-role --role-name "terraform-probe" 2>/dev/null; then
+2026-11-10T23:07:47.4199135Z [36;1mif aws iam get-role --role-name "terraform-probe" 2>/dev/null; then[0m
+2026-11-10T23:07:47.4199587Z [36;1m  echo "FAIL: probe role stil exists"[0m
+2026-11-10T23:07:47.4199882Z [36;1melse[0m
+2026-11-10T23:07:47.4200160Z [36;1m  echo "Cleanup verified: probe role does not exist"[0m
+2026-11-10T23:07:47.4200492Z [36;1mfi[0m
+2026-11-10T23:07:47.4219929Z shell: /usr/bin/bash -e {0}
+2026-11-10T23:07:47.4220194Z env:
+2026-11-10T23:07:47.4220398Z   AWS_REGION: ca-central-1
+2026-11-10T23:07:47.4220657Z   PROBE_ROLE: terraform-probe
+2026-11-10T23:07:47.4221010Z   BOUNDARY_ARN: arn:aws:iam::013310058149:policy/terraform-boundary
+2026-11-10T23:07:47.4222128Z   TRUST_POLICY: {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+2026-11-10T23:07:47.4222779Z   AWS_DEFAULT_REGION: ca-central-1
+2026-11-10T23:07:47.4223336Z   AWS_ACCESS_KEY_ID: ***
+2026-11-10T23:07:47.4223696Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-10T23:07:47.4228959Z   AWS_SESSION_TOKEN: ***
+2026-11-10T23:07:47.4229216Z ##[endgroup]
+2026-11-10T23:07:48.2191009Z Cleanup verified: probe role does not exist
+2026-11-10T23:07:48.2380106Z Post job cleanup.
+2026-11-10T23:07:48.3244942Z Post job cleanup.
+2026-11-10T23:07:48.4148317Z [command]/usr/bin/git version
+2026-11-10T23:07:48.4192453Z git version 2.56.0
+2026-11-10T23:07:48.4233606Z Temporarily overriding HOME='/home/runner/work/_temp/6a74cfce-f3bc-4818-a7b7-bb90678b0784' before making global git config changes
+2026-11-10T23:07:48.4234929Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-10T23:07:48.4240300Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/secure-aws-landing-zone/secure-aws-landing-zone
+2026-11-10T23:07:48.4280284Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-10T23:07:48.4330266Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-10T23:07:48.4585610Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-10T23:07:48.4617003Z http.https://github.com/.extraheader
+2026-11-10T23:07:48.4630133Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-10T23:07:48.4668146Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-10T23:07:48.4936320Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-10T23:07:48.5013877Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-10T23:07:48.5436926Z Cleaning up orphan processes
+2026-11-10T23:07:48.5814448Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
