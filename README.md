@@ -52,7 +52,6 @@ flowchart TB
     PLAN_ROLE -- sts:AssumeRole --> MEMBER_PLAN["Member terraform-plan roles <br> (Log Archive, Audit, Dev, Prod)"]
     APPLY_ROLE -- sts:AssumeRole --> MEMBER_APPLY["Member terraform-deploy roles <br> (Log Archive, Audit, Dev, Prod)"]
     MGMT --- BUCKET & PLAN_ROLE & APPLY_ROLE
-    MEMBER_APPLY["Member terraform-apply roles <br> (Log Archive, Audit, Dev, Prod)"]
     PLAN_ROLE -. "state access" .-> BUCKET
     APPLY_ROLE -. "state access" .-> BUCKET
 ```
