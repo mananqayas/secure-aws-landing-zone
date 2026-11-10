@@ -1,0 +1,56 @@
+name: Permissions boundary negative test for CreateRole gate
+
+on:
+  workflow_dispatch
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: "ca-central-1"
+  PROBE_ROLE: "terraform-probe"
+  BOUNDARY_ARN: "arn:aws:iam::013310058149:policy/terraform-boundary"
+  TRUST_POLICY: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    environment: production
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: Configure aws action
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::013310058149:role/apply-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get the role identity
+        run: aws sts get-caller-identity
+
+      - name: Create role WITHOUT boundary - expect AccessDenied
+        run: |
+          if aws iam create-role --role-name ${{ env.PROBE_ROLE }} --assume-role-policy-document "${{ env.TRUST_POLICY }}" --description "boundary probe - no boundary"; then
+            echo "FAIL: CreateRole succeeded WITHOUT a permissions boundary - the gate is broken"
+            exit 1
+          else
+            echo "PASS: CreateRole without a permissions boundary was denied, as designed"
+          fi
+
+      - name: Create role WITH boundary - expect success, then delete
+        run: |
+          aws iam create-role --role-name "${{ env.PROBE_ROLE }}" --assume-role-policy-document "${{ env.TRUST_POLICY }}" --permissions-boundary "${{ env.BOUNDARY_ARN }}" --description "boundary probe - with boundary"
+          aws iam get-role --role-name "${{ env.PROBE_ROLE }}"
+          aws iam delete-role --role-name "${{ env.PROBE_ROLE }}"
+          echo "Control role create with the boundary and deleted"
+
+      - name: Verify probe role is done
+        run: |
+          if aws iam get-role --role-name "${{ env.PROBE_ROLE }}" 2>/dev/null; then
+            echo "FAIL: probe role stil exists"
+          else
+            echo "Cleanup verified: probe role does not exist"
+          fi
+
