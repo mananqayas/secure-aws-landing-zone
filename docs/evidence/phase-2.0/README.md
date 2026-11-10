@@ -36,6 +36,7 @@ PRs for this setup (#30 to #45)
 * [X] Permissions boundary policies are created for roles in management and member accounts following principle of least privilege to prevent privilege escalation
 
 ![Boundary ceiling simulation](./boundary-ceiling-simulation.png)
+![Boundry create role rejection](./boundary-createrole-rejection.png)
 
 * [X] Every member account is baselined using a dedicated Terraform module named ( [account-baseline](../../../modules/account-baseline/) ) and graduate them once baselined
 
