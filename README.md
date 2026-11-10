@@ -3,7 +3,7 @@
 
 This project builds and operates the foundations of an AWS Organization as code. It separates security and workload accounts, uses short-lived CI credentials instead of stored AWS access keys, and distinguishes infrastructure review (`plan`) from deployment (`apply`). The implementation is delivered incrementally, with architecture decisions and verification evidence linked alongside the code.
 
-**Phase 2.0: Foundations: ✅ complete, 2026-11-09 (latest foundations merge: [![GitHub PR](https://img.shields.io/badge/GitHub-PR%20%2349-181717?logo=github)](https://github.com/mananqayas/secure-aws-landing-zone/pull/49))**.
+**Phase 2.0: Foundations: ✅ complete, 2026-11-09 (foundations merge: [![GitHub PR](https://img.shields.io/badge/GitHub-PR%20%2349-181717?logo=github)](https://github.com/mananqayas/secure-aws-landing-zone/pull/49))**.
 
 **Design:**
 
