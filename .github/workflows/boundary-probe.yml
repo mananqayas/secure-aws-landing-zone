@@ -32,7 +32,7 @@ jobs:
 
       - name: Create role WITHOUT boundary - expect AccessDenied
         run: |
-          if aws iam create-role --role-name ${{ env.PROBE_ROLE }} --assume-role-policy-document "${{ env.TRUST_POLICY }}" --description "boundary probe - no boundary"; then
+          if aws iam create-role --role-name "$PROBE_ROLE" --assume-role-policy-document "$TRUST_POLICY" --description "boundary probe - no boundary"; then
             echo "FAIL: CreateRole succeeded WITHOUT a permissions boundary - the gate is broken"
             exit 1
           else
@@ -41,7 +41,7 @@ jobs:
 
       - name: Create role WITH boundary - expect success, then delete
         run: |
-          aws iam create-role --role-name "${{ env.PROBE_ROLE }}" --assume-role-policy-document "${{ env.TRUST_POLICY }}" --permissions-boundary "${{ env.BOUNDARY_ARN }}" --description "boundary probe - with boundary"
+          aws iam create-role --role-name "$PROBE_ROLE" --assume-role-policy-document "$TRUST_POLICY" --permissions-boundary "${{ env.BOUNDARY_ARN }}" --description "boundary probe - with boundary"
           aws iam get-role --role-name "${{ env.PROBE_ROLE }}"
           aws iam delete-role --role-name "${{ env.PROBE_ROLE }}"
           echo "Control role create with the boundary and deleted"
