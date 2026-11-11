@@ -235,12 +235,12 @@ jobs:
           PLAN_STDOUT: ${{ steps.plan.outputs.stdout }}
           ACTOR: ${{ github.actor }}
           EVENT_NAME: ${{ github.event_name }}
-          WORKING_DIR: ./envs/organization
+          WORKING_DIR: ./envs/identity
           WORKFLOW: ${{ github.workflow }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `## 📋 Plan — organization (\`${process.env.WORKING_DIR}\`)
+            const output = `## 📋 Plan — identity (\`${process.env.WORKING_DIR}\`)
             ### Terraform Format and Style 🖌\`${process.env.FMT_OUTCOME}\`
             ### Terraform Initialization \`${process.env.INIT_OUTCOME}\`
             ### Terraform Validation \`${process.env.VALIDATE_OUTCOME}\`
