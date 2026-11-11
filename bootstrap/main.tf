@@ -331,6 +331,51 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
 data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
 
   statement {
+    sid       = "IdentityControlPlane"
+    effect    = "Allow"
+    resources = ["*"]
+    actions = [
+      "sso:CreatePermissionSet",
+      "sso:DescribePermissionSet",
+      "sso:UpdatePermissionSet",
+      "sso:ListPermissionSets",
+      "sso:DeletePermissionSet",
+      "sso:AttachManagedPolicyToPermissionSet",
+      "sso:DetachManagedPolicyFromPermissionSet",
+      "sso:GetInlinePolicyForPermissionSet",
+      "sso:PutInlinePolicyToPermissionSet",
+      "sso:DeleteInlinePolicyFromPermissionSet",
+      "sso:CreateAccountAssignment",
+      "sso:DeleteAccountAssignment",
+      "sso:ListAccountAssignments",
+      "sso:ListInstances",
+      "sso:ProvisionPermissionSet",
+      "sso:TagResource",
+      "sso:UntagResource",
+      "sso:ListTagsForResource",
+      "identitystore:CreateGroup",
+      "identitystore:UpdateGroup",
+      "identitystore:DeleteGroup",
+      "identitystore:DescribeGroup",
+      "identitystore:ListGroups",
+      "identitystore:CreateUser",
+      "identitystore:UpdateUser",
+      "identitystore:DeleteUser",
+      "identitystore:DescribeUser",
+      "identitystore:ListUsers",
+      "identitystore:CreateGroupMembership",
+      "identitystore:DescribeGroupMembership",
+      "identitystore:DeleteGroupMembership",
+      "identitystore:ListGroupMemberships",
+      "identitystore:GetGroupMembershipId",
+      "identitystore:ListGroupMembershipsForMember",
+      "identitystore:GetGroupId",
+      "identitystore:GetUserId",
+      "identitystore:IsMemberInGroups"
+
+    ]
+  }
+  statement {
 
     effect = "Allow"
     actions = [
