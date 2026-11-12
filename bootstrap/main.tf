@@ -354,6 +354,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "sso:UntagResource",
       "sso:ListTagsForResource",
       "sso:ListManagedPoliciesInPermissionSet",
+      "sso:DescribePermissionSetProvisioningStatus",
       "identitystore:CreateGroup",
       "identitystore:UpdateGroup",
       "identitystore:DeleteGroup",
