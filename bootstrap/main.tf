@@ -374,7 +374,9 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "identitystore:ListGroupMembershipsForMember",
       "identitystore:GetGroupId",
       "identitystore:GetUserId",
-      "identitystore:IsMemberInGroups"
+      "identitystore:IsMemberInGroups",
+      "iam:ListSAMLProviders",
+      "iam:GetSAMLProvider"
 
     ]
   }
