@@ -6,7 +6,7 @@ locals {
   }
 }
 resource "aws_identitystore_group" "groups" {
-  for_each          = local.groups
+  for_each = local.groups
 
   display_name      = each.key
   description       = each.value

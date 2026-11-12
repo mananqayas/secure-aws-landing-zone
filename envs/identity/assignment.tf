@@ -33,7 +33,7 @@ resource "aws_ssoadmin_account_assignment" "assignments" {
   principal_id   = aws_identitystore_group.groups[each.value.group_key].group_id
   principal_type = "GROUP"
 
-  target_id = each.value.account_id
+  target_id   = each.value.account_id
   target_type = "AWS_ACCOUNT"
 
 }
