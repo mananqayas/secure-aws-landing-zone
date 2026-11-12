@@ -340,6 +340,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "sso:UpdatePermissionSet",
       "sso:ListPermissionSets",
       "sso:DeletePermissionSet",
+      "sso:DescribeAccountAssignmentCreationStatus",
       "sso:AttachManagedPolicyToPermissionSet",
       "sso:DetachManagedPolicyFromPermissionSet",
       "sso:GetInlinePolicyForPermissionSet",
