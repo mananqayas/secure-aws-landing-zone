@@ -329,7 +329,24 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
 
 # 17. Apply role's policy document
 data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
-
+  statement {
+    sid = "SSORoleProvisioning"
+    actions = [
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:GetRole",
+      "iam:TagRole",
+      "iam:UntagRole",
+      "iam:AttachRolePolicy",
+      "iam:DetachRolePolicy",
+      "iam:ListAttachedRolePolicies",
+      "iam:PutRolePolicy",
+      "iam:GetRolePolicy",
+      "iam:DeleteRolePolicy",
+      "iam:ListRolePolicies"
+    ]
+    resources = ["arn:aws:iam::013310058149:role/aws-reserved/sso.amazonaws.com/*"]
+  }
   statement {
     sid       = "IdentityControlPlane"
     effect    = "Allow"
