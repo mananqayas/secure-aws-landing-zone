@@ -1,0 +1,25 @@
+GROUPS
+--------------------------------------------------------------
+|                         ListGroups                         |
++---------------------------------------+--------------------+
+|                  Id                   |       Name         |
++---------------------------------------+--------------------+
+|  ecbd1548-00f1-70d2-1243-bab5c9f1249b |  ReadOnlyAuditors  |
+|  ac7dd5b8-5031-70b0-6bd9-f58c59c2c840 |  PlatformAdmins    |
+|  3c2d5568-00f1-7091-16bc-5542ffd27d3c |  Developers        |
++---------------------------------------+--------------------+
+{ "AccountAssignments": [] }
+{ "AccountAssignments": [ { "AccountId": "013310058149", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-88245244c9b9a6ec", "PrincipalType": "GROUP", "PrincipalId": "ac7dd5b8-5031-70b0-6bd9-f58c59c2c840" } ] }
+{ "AccountAssignments": [ { "AccountId": "013310058149", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-8824e7ee2a0bd76f", "PrincipalType": "GROUP", "PrincipalId": "ecbd1548-00f1-70d2-1243-bab5c9f1249b" } ] }
+{ "AccountAssignments": [] }
+{ "AccountAssignments": [ { "AccountId": "408873346185", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-88245244c9b9a6ec", "PrincipalType": "GROUP", "PrincipalId": "ac7dd5b8-5031-70b0-6bd9-f58c59c2c840" } ] }
+{ "AccountAssignments": [ { "AccountId": "408873346185", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-8824e7ee2a0bd76f", "PrincipalType": "GROUP", "PrincipalId": "ecbd1548-00f1-70d2-1243-bab5c9f1249b" } ] }
+{ "AccountAssignments": [] }
+{ "AccountAssignments": [ { "AccountId": "996560370921", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-88245244c9b9a6ec", "PrincipalType": "GROUP", "PrincipalId": "ac7dd5b8-5031-70b0-6bd9-f58c59c2c840" } ] }
+{ "AccountAssignments": [ { "AccountId": "996560370921", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-8824e7ee2a0bd76f", "PrincipalType": "GROUP", "PrincipalId": "ecbd1548-00f1-70d2-1243-bab5c9f1249b" } ] }
+{ "AccountAssignments": [ { "AccountId": "102199089014", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-88245674e836d34b", "PrincipalType": "GROUP", "PrincipalId": "3c2d5568-00f1-7091-16bc-5542ffd27d3c" } ] }
+{ "AccountAssignments": [ { "AccountId": "102199089014", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-88245244c9b9a6ec", "PrincipalType": "GROUP", "PrincipalId": "ac7dd5b8-5031-70b0-6bd9-f58c59c2c840" } ] }
+{ "AccountAssignments": [ { "AccountId": "102199089014", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-8824e7ee2a0bd76f", "PrincipalType": "GROUP", "PrincipalId": "ecbd1548-00f1-70d2-1243-bab5c9f1249b" } ] }
+{ "AccountAssignments": [] }
+{ "AccountAssignments": [ { "AccountId": "503440159390", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-88245244c9b9a6ec", "PrincipalType": "GROUP", "PrincipalId": "ac7dd5b8-5031-70b0-6bd9-f58c59c2c840" } ] }
+{ "AccountAssignments": [ { "AccountId": "503440159390", "PermissionSetArn": "arn:aws:sso:::permissionSet/ssoins-8824ef7bf9ab4056/ps-8824e7ee2a0bd76f", "PrincipalType": "GROUP", "PrincipalId": "ecbd1548-00f1-70d2-1243-bab5c9f1249b" } ] }
