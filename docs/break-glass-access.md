@@ -73,13 +73,13 @@ Root credentials, MFA recovery material, and secrets must never be commited to t
 
 The following actions are required after every break-glass activation:
 
-[X] Rotate the management account root password and secure the new credential in the approved vault.
-[X] Verify root MFA remains correctly registered; replace compromised or untrusted MFA devices.
-[X] Review the complete root-user activity in AWS CloudTrail, including `ConsoleLogin`, API operations, timestamps, source IP addresses, and affected resources.
-[X] Investigate and unexpected changes or unauthorized activity.
-[X] Restore and validate IAM Identity Center access with MFA and the intended permission sets.
-[X] Document the root cause, recovery actions, impact, and preventive measures.
-[X] Obtain a post-incident security review and close the incident.
+* [X] Rotate the management account root password and secure the new credential in the approved vault.
+* [X] Verify root MFA remains correctly registered; replace compromised or untrusted MFA devices.
+* [X] Review the complete root-user activity in AWS CloudTrail, including `ConsoleLogin`, API operations, timestamps, source IP addresses, and affected resources.
+* [X] Investigate and unexpected changes or unauthorized activity.
+* [X] Restore and validate IAM Identity Center access with MFA and the intended permission sets.
+* [X] Document the root cause, recovery actions, impact, and preventive measures.
+* [X] Obtain a post-incident security review and close the incident.
 
 CloudTrail root sign-in events must be examined across the AWS sign-in logging Regions as applicable. Relevant evidence should be retained according to the organization's log-retention policy.
 

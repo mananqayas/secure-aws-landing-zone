@@ -3,15 +3,19 @@
 
 This project builds and operates the foundations of an AWS Organization as code. It separates security and workload accounts, uses short-lived CI credentials instead of stored AWS access keys, and distinguishes infrastructure review (`plan`) from deployment (`apply`). The implementation is delivered incrementally, with architecture decisions and verification evidence linked alongside the code.
 
-**Phase 2.0: Foundations: ✅ complete, 2026-11-09 (foundations merge: [![GitHub PR](https://img.shields.io/badge/GitHub-PR%20%2349-181717?logo=github)](https://github.com/mananqayas/secure-aws-landing-zone/pull/49))**.
+**Phase 2.1: Identity: ✅ complete, 2026-11-13 (release: [v.2.1.0](https://github.com/mananqayas/secure-aws-landing-zone/releases/tag/v2.1.0))**
+
+**Phase 2.0: Foundations: ✅ complete, 2026-11-10 (release: [v.2.0.0](https://github.com/mananqayas/secure-aws-landing-zone/releases/tag/v2.0.0))**.
 
 **Design:**
 
 * 📄 [ADR 0001 - delivery and identity](./docs/adr/0001-delivery-and-identity-architecture.md)
 * 📄 [ADR 0002 - organization design](./docs/adr/0002-organization-design.md)
+* 📄 [ADR 0003 - workforce identity and access model](./docs/adr/0003-workforce-identity-and-access-model.md)
 
 **Verification:**
 
+* 📄 [Phase 2.1 evidence checklist](./docs/evidence/phase-2.1/)
 * 📄 [Phase 2.0 evidence checklist](./docs/evidence/phase-2.0/)
 
 ```mermaid
@@ -75,5 +79,15 @@ The diagram shows deployed organization structure and implemented CI/state paths
 | OU and account definitions | **[`envs/organization/main.tf`](./envs/organization/main.tf)** |
 | Reusable member-account controls | **[`modules/account-baseline/main.tf`](./modules/account-baseline/main.tf)** |
 | CI plan and deploy | **[`terraform-plan.yml`](.github/workflows/terraform-plan.yml) /  [`terraform-apply.yml`](.github/workflows/terraform-apply.yml)** |
-| Architecture decisions and test evidence | **[`ADR-0001`](./docs/adr/0001-delivery-and-identity-architecture.md) / [`ADR-0002`](./docs/adr/0002-organization-design.md) / [`Phase 2.0 checklist`](./docs/evidence/phase-2.0/README.md)**  |
+| Workforce identity (groups, permission sets, assignments) | **[`envs/identity`](./envs/identity/)** |
+| Architecture decisions and test evidence | **[`ADR-0001`](./docs/adr/0001-delivery-and-identity-architecture.md) / [`ADR-0002`](./docs/adr/0002-organization-design.md) / [`ADR-0003`](./docs/adr/0003-workforce-identity-and-access-model.md) / [`Phase 2.0 checklist`](./docs/evidence/phase-2.0/README.md) / [`Phase 2.1 checklist`](./docs/evidence/phase-2.1/README.md)**  |
 
+## Phase 2.1 - What was built
+
+* **Identity root** - A dedicated `envs/identity` root manages IAM Identity Center as code, with its own state key and CI job. **[Source →](./envs/identity/)**
+* **Permission sets** - Three sets with deliberate session lengths: PlatformAdmins (AdministratorAccess, 1h), Developers (PowerUserAccess, 4h), ReadOnlyAuditors (ReadOnlyAccess, 1h). **[Source →](./envs/identity/permission-sets.tf)**
+* **Group-only assignments** - 11 assignments across all five accounts, every one granted to a group, never a user; Developers are scoped to the Dev account only. The full enumeration is committed as evidence. **[Assignments →](./envs/identity/assignment.tf)**
+* **Provisioning split** - Member-account SSO roles are provisioned by the AWS SSO service-linked role; in the management account, provisioning runs on the caller's credentials, so the apply role carries as path-fences grant for `role/aws-reserved/sso.amazonaws.com/*` only. **[ADR-0003](./docs/adr/0003-workforce-identity-and-access-model.md)**
+* **Break-glass** - The management root with MFA is held outside Identity Center as the documented emergency path, and its sign-in is tested. **[Procedure →](./docs/break-glass-access.md)**
+
+**Operational evidence:** **PRs #57-#63** built and documented the phase; credential reports for all five accounts show zero IAM users and zero static access keys, and the committed assignment enumeration matches the Terraform matrix row for row (11 populated, 4 empty by design). **[Phase 2.1 checklist](./docs/evidence/phase-2.1/README.md)**
