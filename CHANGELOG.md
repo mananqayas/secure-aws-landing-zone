@@ -4,6 +4,18 @@ All notable decisions and changes, newest first. Conventional commits in git; th
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [2.1.0] - 2026-11-14
+
+### Added
+* `envs/identity` root: IAM Identity Center as code; 3 permission sets (PlatformAdmins → AdministratorAccess, 1h sessions; Developers → PowerUserAccess 4h; ReadOnlyAuditors → ReadOnlyAccess, 1h), 3 groups, probe users, and 11 group-only account assignments across all 5 accounts, with Developers scoped to Dev only.
+* Break-glass procedure (`docs/break-glass.md`): root + MFA, held outside Identity Center.
+* ADR-0003 (identity model) and a Phase 2.1 evidence checklist.
+
+### Security
+* Zero IAM users and zero static access keys in all five accounts, proven by per-account credential reports.
+* All human access flows through group assignments with MFA required; no direct user assignments.
+* Identity Center provisioning in the management account runs on the caller's credentials, so the apply role gained a path-fenced `SSORoleProvisioning` grant (`role/aws-reserved/sso.amazonaws.com/*` only, no boundary condition; IdC creates those roles boundary-less); member-account provisioning remains with the SSO service-linked role.
+
 ## [2.0.0] - 2026-11-10
 
 ### Added

@@ -1,4 +1,4 @@
-# ADR-0003: Group-Based Workforce Access with IAM Identity Center and Independent Break-Glass Acccess
+# ADR-0003: Group-Based Workforce Access with IAM Identity Center and Independent Break-Glass Access
 
 Date: 2026-11-13
 
