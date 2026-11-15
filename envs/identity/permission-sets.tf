@@ -2,14 +2,17 @@ locals {
   permission_sets = {
     PlatformAdmins = {
       policy = "AdministratorAccess"
+      duration = 1
     }
 
     Developers = {
       policy = "PowerUserAccess"
+      duration = 4
     }
 
     ReadOnlyAuditors = {
       policy = "ReadOnlyAccess"
+      duration = 1
     }
   }
 }
@@ -18,7 +21,7 @@ resource "aws_ssoadmin_permission_set" "sets" {
   for_each         = local.permission_sets
   name             = each.key
   instance_arn     = local.instance_arn
-  session_duration = "PT4H"
+  session_duration = "PT${each.value.duration}H"
 }
 
 resource "aws_ssoadmin_managed_policy_attachment" "policies" {
