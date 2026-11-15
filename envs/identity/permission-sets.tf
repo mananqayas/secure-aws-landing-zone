@@ -1,17 +1,17 @@
 locals {
   permission_sets = {
     PlatformAdmins = {
-      policy = "AdministratorAccess"
+      policy   = "AdministratorAccess"
       duration = 1
     }
 
     Developers = {
-      policy = "PowerUserAccess"
+      policy   = "PowerUserAccess"
       duration = 4
     }
 
     ReadOnlyAuditors = {
-      policy = "ReadOnlyAccess"
+      policy   = "ReadOnlyAccess"
       duration = 1
     }
   }
