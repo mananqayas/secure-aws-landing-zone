@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 * `envs/identity` root: IAM Identity Center as code; 3 permission sets (PlatformAdmins → AdministratorAccess, 1h sessions; Developers → PowerUserAccess 4h; ReadOnlyAuditors → ReadOnlyAccess, 1h), 3 groups, probe users, and 11 group-only account assignments across all 5 accounts, with Developers scoped to Dev only.
-* Break-glass procedure (`docs/break-glass.md`): root + MFA, held outside Identity Center.
+* Break-glass procedure (`docs/break-glass-access.md`): root + MFA, held outside Identity Center.
 * ADR-0003 (identity model) and a Phase 2.1 evidence checklist.
 
 ### Security
