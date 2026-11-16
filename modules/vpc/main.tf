@@ -62,3 +62,10 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.private_rts[count.index].id
   subnet_id      = aws_subnet.private_subnets[count.index].id
 }
+
+resource "aws_route" "internet_access_route" {
+  count            = 3
+  route_table_id   = aws_route_table.public_rts[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id       = aws_internet_gateway.gw.id
+}
