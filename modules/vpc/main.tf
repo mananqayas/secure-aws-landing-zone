@@ -33,3 +33,19 @@ resource "aws_subnet" "private_subnets" {
   cidr_block        = cidrsubnet(var.cidr_block, 8, count.index + 10)
   availability_zone = data.aws_availability_zones.available.names[count.index]
 }
+resource "aws_route_table" "public_rts" {
+  count  = 3
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "public-rt-${substr(data.aws_availability_zones.available.names[count.index], -2, 2)}"
+  }
+}
+
+
+resource "aws_route_table" "private_rts" {
+  count  = 3
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "private-rt-${substr(data.aws_availability_zones.available.names[count.index], -2, 2)}"
+  }
+}
