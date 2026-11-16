@@ -11,7 +11,7 @@ variable "cidr_block" {
 variable "enable_nat_gateway" {
   type        = string
   description = "Default gateway flag"
-  default = false
+  default     = false
 }
 
 variable "flow_log_bucket_arn" {
