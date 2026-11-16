@@ -56,6 +56,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket_config" {
       days          = 90
       storage_class = "GLACIER"
     }
-    expiration = 365
+    expiration {
+      days = 365
+    }
   }
 }
