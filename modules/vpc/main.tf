@@ -51,14 +51,14 @@ resource "aws_route_table" "private_rts" {
 }
 
 resource "aws_route_table_association" "public" {
-  count = 3
-  route_table_id = aws_route_table.public_rts[count.index]
-  subnet_id = aws_subnet.public_subnets[count.index]
+  count          = 3
+  route_table_id = aws_route_table.public_rts[count.index].id
+  subnet_id      = aws_subnet.public_subnets[count.index].id
 }
 
 
 resource "aws_route_table_association" "private" {
-  count = 3
-  route_table_id = aws_route_table.private_rts[count.index]
-  subnet_id = aws_subnet.private_subnets[count.index]
+  count          = 3
+  route_table_id = aws_route_table.private_rts[count.index].id
+  subnet_id      = aws_subnet.private_subnets[count.index].id
 }
