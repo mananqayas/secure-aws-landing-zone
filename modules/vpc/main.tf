@@ -1,6 +1,6 @@
 data "aws_region" "current" {}
-data "aws_availability_zones" "available" {
-  state = "available"
+locals {
+  availability_zones = var.availability_zones
 }
 resource "aws_vpc" "main" {
   cidr_block = var.cidr_block
@@ -20,52 +20,71 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_subnet" "public_subnets" {
-  count             = 3
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = cidrsubnet(var.cidr_block, 8, count.index)
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  count      = length(local.availability_zones)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = cidrsubnet(var.cidr_block, 8, count.index)
 }
 
 
 resource "aws_subnet" "private_subnets" {
-  count             = 3
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = cidrsubnet(var.cidr_block, 8, count.index + 10)
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  count      = length(local.availability_zones)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = cidrsubnet(var.cidr_block, 8, count.index + 10)
 }
 resource "aws_route_table" "public_rts" {
-  count  = 3
+  count  = length(var.availability_zones)
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "public-rt-${substr(data.aws_availability_zones.available.names[count.index], -2, 2)}"
+    Name = "public-rt-${substr(local.availability_zones[count.index], -2, 2)}"
   }
 }
 
 
 resource "aws_route_table" "private_rts" {
-  count  = 3
+
+  count  = length(var.availability_zones)
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "private-rt-${substr(data.aws_availability_zones.available.names[count.index], -2, 2)}"
+    Name = "private-rt-${substr(local.availability_zones[count.index], -2, 2)}"
   }
 }
 
 resource "aws_route_table_association" "public" {
-  count          = 3
+  count          = length(local.availability_zones)
   route_table_id = aws_route_table.public_rts[count.index].id
   subnet_id      = aws_subnet.public_subnets[count.index].id
 }
 
 
 resource "aws_route_table_association" "private" {
-  count          = 3
+  count          = length(local.availability_zones)
   route_table_id = aws_route_table.private_rts[count.index].id
   subnet_id      = aws_subnet.private_subnets[count.index].id
 }
 
 resource "aws_route" "internet_access_route" {
-  count            = 3
-  route_table_id   = aws_route_table.public_rts[count.index].id
+  count                  = length(local.availability_zones)
+  route_table_id         = aws_route_table.public_rts[count.index].id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id       = aws_internet_gateway.gw.id
+  gateway_id             = aws_internet_gateway.gw.id
+}
+
+resource "aws_route" "nat_gateway_route" {
+  count                  = var.enable_nat_gateway ? length(local.availability_zones) : 0
+  route_table_id         = aws_route_table.private_rts[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nats[count.index].id
+}
+
+resource "aws_eip" "eips" {
+  count  = var.enable_nat_gateway ? length(local.availability_zones) : 0
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "nats" {
+  count         = var.enable_nat_gateway ? length(local.availability_zones) : 0
+  allocation_id = aws_eip.eips[count.index].id
+  subnet_id     = aws_subnet.public_subnets[count.index].id
+
+  depends_on = [aws_internet_gateway.gw]
 }

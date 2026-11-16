@@ -18,3 +18,8 @@ variable "flow_log_bucket_arn" {
   type        = string
   description = "Log archive bucket arn"
 }
+
+variable "availability_zones" {
+  type        = list(string)
+  description = "Availability zones names"
+}
