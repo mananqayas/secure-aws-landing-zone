@@ -14,3 +14,10 @@ module "baseline" {
   management_account_id = "013310058149"
 }
 
+module "vpc" {
+  source     = "../../modules/vpc/"
+  cidr_block = "10.0.0.0/16"
+  name       = "dev-vpc"
+  flow_log_bucket_arn = "na"
+
+}
