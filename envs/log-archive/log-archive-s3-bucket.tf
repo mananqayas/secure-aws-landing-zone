@@ -22,3 +22,26 @@ resource "aws_s3_bucket_public_access_block" "log_archive_bucket_access" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+data "aws_iam_policy_document" "allow_access_for_flow_logs" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [102199089014, 503440159390]
+    }
+
+    actions = ["s3:PutObject"]
+
+    resources = ["${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/102199089014", "${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/503440159390"]
+  }
+}
+
+resource "aws_s3_bucket_policy" "attach_policy_for_delivery_logs_from_dev_and_prod" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  policy = data.aws_iam_policy_document.allow_access_for_flow_logs.json
+}
