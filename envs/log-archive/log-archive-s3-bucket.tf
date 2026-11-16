@@ -45,3 +45,17 @@ resource "aws_s3_bucket_policy" "attach_policy_for_delivery_logs_from_dev_and_pr
   bucket = aws_s3_bucket.log_archive_bucket.id
   policy = data.aws_iam_policy_document.allow_access_for_flow_logs.json
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "bucket_config" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+
+  rule {
+    id     = "lifecycle"
+    status = "Enabled"
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+    expiration = 365
+  }
+}
