@@ -22,7 +22,7 @@ module "vpc" {
   cidr_block          = "10.0.0.0/16"
   name                = "dev-vpc"
   flow_log_bucket_arn = "na"
-  enable_nat_gateway  = true
+  enable_nat_gateway  = false
   availability_zones  = data.aws_availability_zones.available.names
 
 }
