@@ -88,3 +88,10 @@ resource "aws_nat_gateway" "nats" {
 
   depends_on = [aws_internet_gateway.gw]
 }
+
+resource "aws_default_security_group" "default_sg" {
+  vpc_id = aws_vpc.main
+  tags = {
+    Name = "default-sg-disabled"
+  }
+}
