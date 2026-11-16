@@ -90,7 +90,7 @@ resource "aws_nat_gateway" "nats" {
 }
 
 resource "aws_default_security_group" "default_sg" {
-  vpc_id = aws_vpc.main
+  vpc_id = aws_vpc.main.id
   tags = {
     Name = "default-sg-disabled"
   }
