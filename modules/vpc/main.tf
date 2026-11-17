@@ -20,17 +20,17 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_subnet" "public_subnets" {
-  count      = length(local.availability_zones)
-  vpc_id     = aws_vpc.main.id
-  cidr_block = cidrsubnet(var.cidr_block, 8, count.index)
+  count                   = length(local.availability_zones)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index)
   map_public_ip_on_launch = false
 }
 
 
 resource "aws_subnet" "private_subnets" {
-  count      = length(local.availability_zones)
-  vpc_id     = aws_vpc.main.id
-  cidr_block = cidrsubnet(var.cidr_block, 8, count.index + 10)
+  count                   = length(local.availability_zones)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index + 10)
   map_public_ip_on_launch = false
 }
 resource "aws_route_table" "public_rts" {
@@ -99,9 +99,14 @@ resource "aws_default_security_group" "default_sg" {
 }
 
 resource "aws_flow_log" "flow_log" {
-  vpc_id = aws_vpc.main.id
-  log_destination_type = "s3"
-  log_destination = var.flow_log_bucket_arn
-  traffic_type = "ALL"
+  vpc_id                   = aws_vpc.main.id
+  log_destination_type     = "s3"
+  log_destination          = var.flow_log_bucket_arn
+  traffic_type             = "ALL"
   max_aggregation_interval = 60
+}
+
+
+resource "aws_default_network_acl" "default_acl" {
+  default_network_acl_id = aws_vpc.main.default_network_acl_id
 }
