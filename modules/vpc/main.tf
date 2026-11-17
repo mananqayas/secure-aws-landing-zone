@@ -98,7 +98,7 @@ resource "aws_default_security_group" "default_sg" {
   }
 }
 
-resource "aws_network_flow_log" "flow_log" {
+resource "aws_flow_log" "flow_log" {
   vpc_id = aws_vpc.main.id
   log_destination_type = "s3"
   log_destination = var.flow_log_bucket_arn
