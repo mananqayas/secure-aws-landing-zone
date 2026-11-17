@@ -110,3 +110,13 @@ resource "aws_flow_log" "flow_log" {
 resource "aws_default_network_acl" "default_acl" {
   default_network_acl_id = aws_vpc.main.default_network_acl_id
 }
+
+resource "aws_network_acl" "public" {
+  vpc_id     = aws_vpc.main.id
+  subnet_ids = aws_subnet.public_subnets[*].id
+}
+
+resource "aws_network_acl" "private" {
+  vpc_id     = aws_vpc.main.id
+  subnet_ids = aws_subnet.private_subnets[*].id
+}
