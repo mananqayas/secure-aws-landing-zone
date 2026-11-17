@@ -84,7 +84,7 @@ module "vpc" {
       rule_action : "allow",
       egress : false
     },
-    
+
     rule_7 : {
       rule_number : 120,
       protocol : "tcp",
