@@ -25,6 +25,15 @@ resource "aws_s3_bucket_public_access_block" "log_archive_bucket_access" {
 
 data "aws_iam_policy_document" "allow_access_for_flow_logs" {
   statement {
+    sid = "AWSLogDeliveryAclCheck"
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    actions   = ["s3:GetBucketAcl"]
+    resources = [aws_s3_bucket.log_archive_bucket.arn]
+  }
+  statement {
     principals {
       type        = "Service"
       identifiers = ["delivery.logs.amazonaws.com"]
@@ -37,7 +46,7 @@ data "aws_iam_policy_document" "allow_access_for_flow_logs" {
 
     actions = ["s3:PutObject"]
 
-    resources = ["${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/102199089014", "${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/503440159390"]
+    resources = ["${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/102199089014/*", "${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/503440159390/*"]
   }
 }
 
