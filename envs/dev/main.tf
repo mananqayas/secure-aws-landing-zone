@@ -104,7 +104,49 @@ module "vpc" {
       protocol    = "-1"
       cidr_block  = "10.0.0.0/16"
       rule_action = "allow"
-    }
+    },
+
+    rule_2 = {
+      rule_number = 110
+      egress      = false
+      from_port   = 1024
+      to_port     = 65535
+      protocol    = "tcp"
+      cidr_block  = "0.0.0.0/0"
+      rule_action = "allow"
+    },
+
+    rule_3 = {
+      rule_number = 100
+      egress      = true
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "10.0.0.0/16"
+      rule_action = "allow"
+    },
+
+    rule_4 = {
+      rule_number = 110
+      egress      = true
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_block  = "0.0.0.0/0"
+      rule_action = "allow"
+    },
+
+    rule_5 = {
+      rule_number = 120
+      egress      = true
+      from_port   = 1024
+      to_port     = 65535
+      protocol    = "tcp"
+      cidr_block  = "0.0.0.0/0"
+      rule_action = "allow"
+    },
+
+
   }
 
 }

@@ -155,3 +155,17 @@ resource "aws_network_acl_rule" "private_tier" {
   to_port        = each.value.to_port
 
 }
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.ca-central-1.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = concat(aws_route_table.public_rts[*].id, aws_route_table.private_rts[*].id)
+}
+
+resource "aws_vpc_endpoint" "dynamo" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.ca-central-1.dynamodb"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = concat(aws_route_table.public_rts[*].id, aws_route_table.private_rts[*].id)
+}
