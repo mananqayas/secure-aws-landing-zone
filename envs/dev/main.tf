@@ -82,7 +82,7 @@ module "vpc" {
       to_port : 443,
       cidr_block : "0.0.0.0/0",
       rule_action : "allow",
-      egress : false
+      egress : true
     },
 
     rule_7 : {
@@ -92,7 +92,7 @@ module "vpc" {
       to_port : 65535,
       cidr_block : "0.0.0.0/0",
       rule_action : "allow",
-      egress : false
+      egress : true
     },
   }
 
