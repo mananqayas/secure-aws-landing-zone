@@ -1,5 +1,5 @@
 locals {
-  execution_role_arn = "arn=aws:iam::${var.account_id}:role/${var.bootstrapping ? "OrganizationAccountAccessRole" : var.execution_role_name}"
+  execution_role_arn = "arn:aws:iam::${var.account_id}:role/${var.bootstrapping ? "OrganizationAccountAccessRole" : var.execution_role_name}"
 }
 
 data "aws_availability_zones" "available" {
