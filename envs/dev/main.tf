@@ -24,5 +24,16 @@ module "vpc" {
   flow_log_bucket_arn = "arn:aws:s3:::lz-flow-logs-408873346185"
   enable_nat_gateway  = false
   availability_zones  = data.aws_availability_zones.available.names
+  nacl_rules = {
+    "rule_1" : {
+      "rule_number" : 50,
+      protocol : "tcp",
+      "from_port" : 3389,
+      "to_port" : 3389,
+      cidr_block : "0.0.0.0/0",
+      rule_action : "deny",
+      egress : false
+    }
+  }
 
 }
