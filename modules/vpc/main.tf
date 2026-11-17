@@ -24,6 +24,10 @@ resource "aws_subnet" "public_subnets" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.cidr_block, 8, count.index)
   map_public_ip_on_launch = false
+
+  tags = {
+    Name = "public-subnet-${substr(local.availability_zones[count.index], -2, 2)}"
+  }
 }
 
 
@@ -32,6 +36,10 @@ resource "aws_subnet" "private_subnets" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.cidr_block, 8, count.index + 10)
   map_public_ip_on_launch = false
+  tags = {
+    Name = "private-subnet-${substr(local.availability_zones[count.index], -2, 2)}"
+  }
+
 }
 resource "aws_route_table" "public_rts" {
   count  = length(var.availability_zones)
