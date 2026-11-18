@@ -1,0 +1,34 @@
+{
+    "InstanceConnectEndpoints": [
+        {
+            "OwnerId": "503440159390",
+            "InstanceConnectEndpointId": "eice-04db222a7adc72766",
+            "InstanceConnectEndpointArn": "arn:aws:ec2:ca-central-1:503440159390:instance-connect-endpoint/eice-04db222a7adc72766",
+            "State": "create-complete",
+            "StateMessage": "",
+            "DnsName": "eice-04db222a7adc72766.cd586063.ec2-instance-connect-endpoint.ca-central-1.amazonaws.com",
+            "NetworkInterfaceIds": [
+                "eni-0ff2786ee40da6e9f"
+            ],
+            "VpcId": "vpc-020f58cc677b2ff39",
+            "AvailabilityZone": "ca-central-1a",
+            "CreatedAt": "2026-11-18T05:42:00+00:00",
+            "SubnetId": "subnet-01b690c2289e4ed6b",
+            "PreserveClientIp": false,
+            "SecurityGroupIds": [
+                "sg-034958743da047e54"
+            ],
+            "Tags": [],
+            "IpAddressType": "ipv4",
+            "PublicDnsNames": {
+                "Ipv4": {
+                    "DnsName": "eice-04db222a7adc72766.cd586063.ec2-instance-connect-endpoint.ca-central-1.amazonaws.com"
+                },
+                "Dualstack": {
+                    "DnsName": "eice-04db222a7adc72766.cd586063.ec2-instance-connect-endpoint.ca-central-1.api.aws"
+                }
+            },
+            "AvailabilityZoneId": "cac1-az1"
+        }
+    ]
+}
