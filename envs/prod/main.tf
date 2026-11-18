@@ -19,7 +19,7 @@ module "vpc" {
   cidr_block          = "10.1.0.0/16"
   name                = "prod-vpc"
   flow_log_bucket_arn = "arn:aws:s3:::lz-flow-logs-408873346185"
-  enable_nat_gateway  = false
+  enable_nat_gateway  = true
   availability_zones  = data.aws_availability_zones.available.names
   public_nacl_rules = {
     rule_1 = {
