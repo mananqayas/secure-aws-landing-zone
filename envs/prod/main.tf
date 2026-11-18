@@ -1,7 +1,7 @@
 locals {
   execution_role_arn = "arn:aws:iam::${var.account_id}:role/${var.bootstrapping ? "OrganizationAccountAccessRole" : var.execution_role_name}"
 }
-
+data "aws_availability_zones" "available" {}
 provider "aws" {
   region = "ca-central-1"
   assume_role {
