@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [2.2.0] - 2026-11-18
 
-#### Added
+### Added
 * Reusable `modules/vpc`, instantiated in Dev (`10.0.0.0/16`) and Prod (`10.1.0.0/16`): three availability zones, public and private subnets per zone, per-zone route tables, internet gateway, custom per-tier NACLs, and VPC flow logs (all traffic, 60-second aggregation). The management, Log Archive, and Audit accounts have no VPCs.
 * Central flow-log bucket in the Log Archive account with the canonical AWS log-delivery bucket policy (writes fenced by `aws:SourceAccount` to Dev and Prod), Glacier transition at 90 days, and expiry at 365 days.
 * S3 and DynamoDB gateway endpoints in both VPCs, associated with all public and private route tables.

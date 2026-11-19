@@ -31,7 +31,7 @@ The network design must provide:
 * Public route tables (one per zone) route `0.0.0.0/0` to the internet gateway. Private route tables receive a `0.0.0.0/0` route only while NAT is enabled for that environment.
 
 4. NAT egress behind a flag, resting off
-* NAT gateways (one for zone, with Elastic IPs) and the private default routes are created together under a single per-environment flag, with counts derived from the same condition and the zone list, never literals.
+* NAT gateways (one per zone, with Elastic IPs) and the private default routes are created together under a single per-environment flag, with counts derived from the same condition and the zone list, never literals.
 * The flag rests *false* in both environments. NAT gateways bill hourly and cannot be paused, so an always-on egress path would charge roughly $97 per month per environment for a capability no workload uses yet, and would keep a standing internet path the design does not want by default.
 * Enabling egress for a real workload is a one-line, peer-reviewed change through the normal CI path.
 
@@ -42,10 +42,10 @@ The network design must provide:
 * Interface endpoints are deferred until a workload requires one; each costs per zone per hour and none is needed yet.
 
 6. Default-deny inside the VPC
-* The VPC default security group is emptied under module management (no ingress, no egress). An instance that does not explicitly choose a security group gets one that passes nothing, intead of the AWS default behavior. Workloads must use purpose-built security groups.
+* The VPC default security group is emptied under module management (no ingress, no egress). An instance that does not explicitly choose a security group gets one that passes nothing, instead of the AWS default behavior. Workloads must use purpose-built security groups.
 * Each tier gets a custom stateless NACL with explicit allows. The public tier additionally carries a low-numbered deny for RDP (3389) ahead of its ephemeral-range allow, so a known-bad port is refused even though the reply range is open. The default NACL is hardened under module management as well.
 
-7. Centralized flow loggins
+7. Centralized flow logging
 * Every VPC logs **all** traffic (accept and reject) at a 60-second aggregation interval to one bucket in the Log Archive account (`lz-flow-logs-<log-archive-account-id>`). The accounts generating the logs hold no rights over the bucket, its policy, or its lifecycle.
 * The bucket policy is the canonical AWS log-delivery pair: the delivery service's ACL check is unfenced, and writes are fenced by `aws:SourceAccount` to the workload accounts only. The log destination is the bare bucket ARN; the delivery service composes the per-account path itself.
 * Objects transition to Glacier at 90 days and expire at 365 days.
@@ -53,7 +53,7 @@ The network design must provide:
 
 8. Private-instance access: prototyped, not adopted
 * An EC2 Instance Connect Endpoint was validated in Prod as a test rig (IAM-gated tunnel, `preserve_client_ip` disabled so the instance sees the endpoint ENI as the source, SG rules, no bastion, no public IP, and no dependence on NAT or the internet gateway) and was removed after the test.
-* Adopting a standing private-access platform (Instance Connect Endpoint vs. Session Manager) is deferred to the first-workload phase, where the workload's operational needs decide it. Nothing standing was left behind in Prod.
+* Adopting a standing private-access pattern (Instance Connect Endpoint vs. Session Manager) is deferred to the first-workload phase, where the workload's operational needs decide it. Nothing standing was left behind in Prod.
 
 ## Architecture
 
@@ -93,10 +93,10 @@ Both VPCs are instances of the same module; only the CIDR, NACL rule sets, and N
 | Alternative | Reason not selected |
 | ---- |---- |
 | VPCs in every account, including security and management | Nothing runs in those accounts; an empty VPC is attack surface and cost with no workload to serve. |
-| NAT gateways always on | Standing hourly cost (~97/month/environment) for an unused path, and a permanent internet route from private subnets that contradicts the default posture. |
+| NAT gateways always on | Standing hourly cost (~**$**97/month/environment) for an unused path, and a permanent internet route from private subnets that contradicts the default posture. |
 | A single NAT gateway per environment | Cheaper, but makes every zone's private egress depend on one zone's gateway health. |
 | NAT instances instead of managed gateways | Lower hourly cost, but self-managed patching and availability, and a throughput ceiling; not justified at this scale. |
-| Flow logs to per-account buckets or CloudWatch Logs | Pe account buckets let a compromised workload account delete its own evidence; the landing zone's archive pattern is a central S3 bucket under separate account control. |
+| Flow logs to per-account buckets or CloudWatch Logs | Per account buckets let a compromised workload account delete its own evidence; the landing zone's archive pattern is a central S3 bucket under separate account control. |
 | Customer-managed KMS key on the flow-log bucket | Cross-account delivery grants and a silent log-delivery failure mode; SSE-S3 accepted with a recorded revisit trigger. |
 | Interface endpoints for common services up front | Each endpoint bills per zone per hour with no workload to use it; deferred until a workload requires one. |
 | Leave the default security group usable for convenience | Its AWS-default rules contradict the default-deny posture; the emptied default was also what provably stopped the public-to-private test connection. |
