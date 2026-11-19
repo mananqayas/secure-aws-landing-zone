@@ -1,0 +1,70 @@
+{
+    "NatGateways": [
+        {
+            "CreateTime": "2026-11-18T05:59:18+00:00",
+            "NatGatewayAddresses": [
+                {
+                    "AllocationId": "eipalloc-056bb295349d1824d",
+                    "NetworkInterfaceId": "eni-0cd7726a3c955e613",
+                    "PrivateIp": "10.1.1.80",
+                    "PublicIp": "3.98.177.139",
+                    "AssociationId": "eipassoc-0f274a95a33eaafc6",
+                    "IsPrimary": true,
+                    "Status": "succeeded"
+                }
+            ],
+            "NatGatewayId": "nat-08a754639f96b7b93",
+            "State": "available",
+            "SubnetId": "subnet-00103b47cb3f21a10",
+            "VpcId": "vpc-020f58cc677b2ff39",
+            "Tags": [],
+            "ConnectivityType": "public",
+            "AvailabilityMode": "zonal",
+            "AttachedAppliances": []
+        },
+        {
+            "CreateTime": "2026-11-18T05:59:18+00:00",
+            "NatGatewayAddresses": [
+                {
+                    "AllocationId": "eipalloc-03767aca69a020a6b",
+                    "NetworkInterfaceId": "eni-0f47c0f01212ad4ee",
+                    "PrivateIp": "10.1.0.237",
+                    "PublicIp": "16.55.122.80",
+                    "AssociationId": "eipassoc-073eb763205d2e27b",
+                    "IsPrimary": true,
+                    "Status": "succeeded"
+                }
+            ],
+            "NatGatewayId": "nat-0dcebf67efb7fbb5f",
+            "State": "available",
+            "SubnetId": "subnet-01a0c556a032d064b",
+            "VpcId": "vpc-020f58cc677b2ff39",
+            "Tags": [],
+            "ConnectivityType": "public",
+            "AvailabilityMode": "zonal",
+            "AttachedAppliances": []
+        },
+        {
+            "CreateTime": "2026-11-18T05:59:18+00:00",
+            "NatGatewayAddresses": [
+                {
+                    "AllocationId": "eipalloc-0393e80e0a65839a9",
+                    "NetworkInterfaceId": "eni-047bb54eff07cd3cc",
+                    "PrivateIp": "10.1.2.138",
+                    "PublicIp": "16.54.200.248",
+                    "AssociationId": "eipassoc-05454e8f43399e579",
+                    "IsPrimary": true,
+                    "Status": "succeeded"
+                }
+            ],
+            "NatGatewayId": "nat-0647b03aab26b340b",
+            "State": "available",
+            "SubnetId": "subnet-06891672182ade4d8",
+            "VpcId": "vpc-020f58cc677b2ff39",
+            "Tags": [],
+            "ConnectivityType": "public",
+            "AvailabilityMode": "zonal",
+            "AttachedAppliances": []
+        }
+    ]
+}
