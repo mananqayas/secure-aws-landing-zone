@@ -35,15 +35,15 @@ module "vpc" {
       egress      = false
     }
 
-    rule_2 = {
-      rule_number = 90
-      protocol    = "tcp"
-      from_port   = 22
-      to_port     = 22
-      cidr_block  = "24.57.0.77/32"
-      rule_action = "allow"
-      egress      = false
-    }
+#     rule_2 = {
+#       rule_number = 90
+#       protocol    = "tcp"
+#       from_port   = 22
+#       to_port     = 22
+#       cidr_block  = ""
+#       rule_action = "allow"
+#       egress      = false
+#     }
 
     rule_3 = {
       rule_number = 100
