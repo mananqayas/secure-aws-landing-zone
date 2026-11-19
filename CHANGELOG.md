@@ -4,6 +4,22 @@ All notable decisions and changes, newest first. Conventional commits in git; th
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [2.2.0] - 2026-11-18
+
+#### Added
+* Reusable `modules/vpc`, instantiated in Dev (`10.0.0.0/16`) and Prod (`10.1.0.0/16`): three availability zones, public and private subnets per zone, per-zone route tables, internet gateway, custom per-tier NACLs, and VPC flow logs (all traffic, 60-second aggregation). The management, Log Archive, and Audit accounts have no VPCs.
+* Central flow-log bucket in the Log Archive account with the canonical AWS log-delivery bucket policy (writes fenced by `aws:SourceAccount` to Dev and Prod), Glacier transition at 90 days, and expiry at 365 days.
+* S3 and DynamoDB gateway endpoints in both VPCs, associated with all public and private route tables.
+* NAT egress behind a per-environment flag (`enable_nat_gateway`, resting `false` in both environments): NAT gateways, Elastic IPs, and private default routes are created and destroyed together by the flag.
+* ADR-0004 (network architecture) and a Phase 2.2 evidence checklist.
+
+### Security
+* Private subnets have no default route at rest, and the VPC main route table carries only the local route, so a subnet without an explicit association fails closed.
+* The VPC default security group is emptied under module management in both VPCs: an instance that does not choose a security group passes no traffic - proven by the public-to-private gate test, rejected at the private instance's default security group.
+* The public-tier NACL denies RDP (3389) ahead of its ephemeral-range allow; the deny is visible as REJECT entries in the delivered flow logs.
+* Flow logs are delivered to a bucket in a separate account that the workload accounts cannot modify or delete.
+* NAT egress was proven functionally in Prod in both states (a private instance's request answered with a NAT Elastic IP while enabled; the same request timed out with the flag off), and an EC2 Instance Connect Endpoint was validated as a bastionless private-access prototype and removed; adopting a standing access pattern is deferred to the first-workload phase.
+
 ## [2.1.0] - 2026-11-14
 
 ### Added
