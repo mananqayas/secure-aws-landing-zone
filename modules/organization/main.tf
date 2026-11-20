@@ -4,7 +4,8 @@ provider "aws" {
 
 data "aws_organizations_organization" "org" {}
 resource "aws_organizations_organization" "org" {
-  enabled_policy_types = ["SERVICE_CONTROL_POLICY"]
+  enabled_policy_types          = ["SERVICE_CONTROL_POLICY"]
+  aws_service_access_principals = ["sso.amazonaws.com"]
 }
 
 resource "aws_organizations_organizational_unit" "this" {
