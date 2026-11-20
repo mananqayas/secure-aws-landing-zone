@@ -28,7 +28,10 @@ resource "aws_organizations_policy" "deny_leave_org_policy" {
 
 resource "aws_organizations_policy_attachment" "org_leave" {
 
-  for_each  = toset([local.dev_acct_id, local.prod_acct_id])
+  for_each = {
+    dev  = local.dev_acct_id
+    prod = local.prod_acct_id
+  }
   policy_id = aws_organizations_policy.deny_leave_org_policy.id
   target_id = each.value
 
