@@ -37,8 +37,8 @@ resource "aws_organizations_policy_attachment" "org_leave" {
 data "aws_iam_policy_document" "restrict_region_policy_doc" {
   statement {
 
-    effect      = "Deny"
-    resources   = ["*"]
+    effect    = "Deny"
+    resources = ["*"]
     not_actions = [
       "iam:*",
       "cloudfront:*",
