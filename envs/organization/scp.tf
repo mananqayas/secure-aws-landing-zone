@@ -71,8 +71,12 @@ resource "aws_organizations_policy" "restrict_region_policy" {
 }
 
 resource "aws_organizations_policy_attachment" "restrict_region_policy_attachment" {
+  for_each = {
+    dev  = local.dev_acct_id
+    prod = local.prod_acct_id
+  }
   policy_id = aws_organizations_policy.restrict_region_policy.id
-  target_id = local.dev_acct_id
+  target_id = each.value
 }
 
 # 3: Require encryption for EC2 and RDS
@@ -105,8 +109,12 @@ resource "aws_organizations_policy" "require_encryption_policy" {
 }
 
 resource "aws_organizations_policy_attachment" "require_encryption_policy_attachment" {
+  for_each = {
+    dev  = local.dev_acct_id
+    prod = local.prod_acct_id
+  }
   policy_id = aws_organizations_policy.require_encryption_policy.id
-  target_id = local.dev_acct_id
+  target_id = each.value
 }
 
 # 4: Protect CloudTrail and Config actions
@@ -132,9 +140,13 @@ resource "aws_organizations_policy" "protect_logging_policy" {
 }
 
 resource "aws_organizations_policy_attachment" "protect_logging_policy_attachment" {
+  for_each = {
+    dev  = local.dev_acct_id
+    prod = local.prod_acct_id
+  }
 
   policy_id = aws_organizations_policy.protect_logging_policy.id
-  target_id = local.dev_acct_id
+  target_id = each.value
 }
 
 # 5: Deny root in members
@@ -157,8 +169,12 @@ resource "aws_organizations_policy" "deny_root_in_members_policy" {
 }
 
 resource "aws_organizations_policy_attachment" "deny_root_in_members_policy_attachment" {
+  for_each = {
+    dev  = local.dev_acct_id
+    prod = local.prod_acct_id
+  }
   policy_id = aws_organizations_policy.deny_root_in_members_policy.id
-  target_id = local.dev_acct_id
+  target_id = each.value
 }
 
 
