@@ -39,7 +39,20 @@ data "aws_iam_policy_document" "restrict_region_policy_doc" {
 
     effect      = "Deny"
     resources   = ["*"]
-    not_actions = ["iam:*", "cloudfront:*", "sts:*", "route53:*", "support:*", "budgets:*", "organizations:*"]
+    not_actions = [
+      "iam:*",
+      "cloudfront:*",
+      "sts:*",
+      "route53:*",
+      "support:*",
+      "budgets:*",
+      "organizations:*",
+      "cloudtrail:LookupEvents",
+      "cloudtrail:DescribeTrails",
+      "cloudtrail:ListTrails",
+      "cloudtrail:GetTrailStatus",
+      "cloudTrail:GetEventStatus"
+    ]
     condition {
       test     = "StringNotEquals"
       variable = "aws:RequestedRegion"
