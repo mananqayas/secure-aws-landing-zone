@@ -262,7 +262,9 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
       "organizations:DetachPolicy",
       "organizations:DescribePolicy",
       "organizations:ListPoliciesForTarget",
-      "organizations:ListTargetsForPolicy"
+      "organizations:ListTargetsForPolicy",
+      "organizations:EnablePolicyType",
+      "organizations:DisablePolicyType"
     ]
     resources = ["*"]
   }
@@ -438,7 +440,9 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "organizations:DetachPolicy",
       "organizations:DescribePolicy",
       "organizations:ListPoliciesForTarget",
-      "organizations:ListTargetsForPolicy"
+      "organizations:ListTargetsForPolicy",
+      "organizations:EnablePolicyType",
+      "organizations:DisablePolicyType"
 
     ]
     resources = ["*"]

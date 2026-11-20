@@ -3,6 +3,9 @@ provider "aws" {
 }
 
 data "aws_organizations_organization" "org" {}
+resource "aws_organizations_organization" "org" {
+  enabled_policy_types = ["SERVICE_CONTROL_POLICY"]
+}
 
 resource "aws_organizations_organizational_unit" "this" {
   for_each  = var.organizational_units
