@@ -1,0 +1,52 @@
+{
+    "Policies": [
+        {
+            "Id": "p-1vi0esbv",
+            "Arn": "arn:aws:organizations::013310058149:policy/o-4nhn73sdcv/service_control_policy/p-1vi0esbv",
+            "Name": "ProtectLogging",
+            "Description": "",
+            "Type": "SERVICE_CONTROL_POLICY",
+            "AwsManaged": false
+        },
+        {
+            "Id": "p-FullAWSAccess",
+            "Arn": "arn:aws:organizations::aws:policy/service_control_policy/p-FullAWSAccess",
+            "Name": "FullAWSAccess",
+            "Description": "Allows access to every operation",
+            "Type": "SERVICE_CONTROL_POLICY",
+            "AwsManaged": true
+        },
+        {
+            "Id": "p-blxi8ivz",
+            "Arn": "arn:aws:organizations::013310058149:policy/o-4nhn73sdcv/service_control_policy/p-blxi8ivz",
+            "Name": "RegionAllowList",
+            "Description": "",
+            "Type": "SERVICE_CONTROL_POLICY",
+            "AwsManaged": false
+        },
+        {
+            "Id": "p-bqeniokj",
+            "Arn": "arn:aws:organizations::013310058149:policy/o-4nhn73sdcv/service_control_policy/p-bqeniokj",
+            "Name": "RequireEncryption",
+            "Description": "",
+            "Type": "SERVICE_CONTROL_POLICY",
+            "AwsManaged": false
+        },
+        {
+            "Id": "p-ciquznbt",
+            "Arn": "arn:aws:organizations::013310058149:policy/o-4nhn73sdcv/service_control_policy/p-ciquznbt",
+            "Name": "DenyLeaveOrganization",
+            "Description": "",
+            "Type": "SERVICE_CONTROL_POLICY",
+            "AwsManaged": false
+        },
+        {
+            "Id": "p-x9g77q5o",
+            "Arn": "arn:aws:organizations::013310058149:policy/o-4nhn73sdcv/service_control_policy/p-x9g77q5o",
+            "Name": "DenyRootInMembers",
+            "Description": "",
+            "Type": "SERVICE_CONTROL_POLICY",
+            "AwsManaged": false
+        }
+    ]
+}
