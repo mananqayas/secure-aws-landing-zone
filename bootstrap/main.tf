@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 
 provider "aws" {
   region  = "ca-central-1"
-  profile = "mgmt-admin"
+  profile = "mgmt"
 }
 
 # 2. Create the KMS Key with the 2 required policy statements
@@ -254,7 +254,15 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
       "organizations:ListDelegatedAdministrators",
       "organizations:TagResource",
       "organizations:UntagResource",
-      "organizations:ListTagsForResource"
+      "organizations:ListTagsForResource",
+      "organizations:CreatePolicy",
+      "organizations:DeletePolicy",
+      "organizations:UpdatePolicy",
+      "organizations:AttachPolicy",
+      "organizations:DetachPolicy",
+      "organizations:DescribePolicy",
+      "organizations:ListPoliciesForTarget",
+      "organizations:ListTargetsForPolicy"
     ]
     resources = ["*"]
   }
@@ -422,7 +430,16 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "organizations:ListDelegatedAdministrators",
       "organizations:TagResource",
       "organizations:UntagResource",
-      "organizations:ListTagsForResource"
+      "organizations:ListTagsForResource",
+      "organizations:CreatePolicy",
+      "organizations:DeletePolicy",
+      "organizations:UpdatePolicy",
+      "organizations:AttachPolicy",
+      "organizations:DetachPolicy",
+      "organizations:DescribePolicy",
+      "organizations:ListPoliciesForTarget",
+      "organizations:ListTargetsForPolicy"
+
     ]
     resources = ["*"]
     sid       = "OrgControlPlane"
