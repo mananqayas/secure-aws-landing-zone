@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "deny_leave_org_policy_document" {
 
 
 resource "aws_organizations_policy" "deny_leave_org_policy" {
-  name    = "deny-leave-org"
+  name    = "DenyLeaveOrganization"
   content = data.aws_iam_policy_document.deny_leave_org_policy_document.json
 }
 
