@@ -36,8 +36,12 @@ data "aws_iam_policy_document" "bucket_policy" {
   }
 
   statement {
-    sid       = "AWSCloudTrailWrite"
-    actions   = ["s3:PutObject"]
+    sid     = "AWSCloudTrailWrite"
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
     resources = ["${aws_s3_bucket.cloud_trail_bucket.arn}/AWSLogs/013310058149/*"]
     condition {
       test     = "StringEquals"
@@ -54,6 +58,10 @@ data "aws_iam_policy_document" "bucket_policy" {
     sid       = "AWSCloudTrailWriteOrg"
     actions   = ["s3:PutObject"]
     resources = ["${aws_s3_bucket.cloud_trail_bucket.arn}/AWSLogs/o-4nhn73sdcv/*"]
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
     condition {
       test     = "StringEquals"
       variable = "aws:SourceArn"
