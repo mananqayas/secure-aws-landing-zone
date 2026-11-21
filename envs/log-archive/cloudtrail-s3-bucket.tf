@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     }
     condition {
       test     = "StringEquals"
-      variable = "aws:x-amz-acl"
+      variable = "s3:x-amz-acl"
       values   = ["bucket-owner-full-control"]
     }
   }
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     }
     condition {
       test     = "StringEquals"
-      variable = "aws:x-amz-acl"
+      variable = "s3:x-amz-acl"
       values   = ["bucket-owner-full-control"]
     }
   }
