@@ -408,6 +408,23 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
     ]
   }
   statement {
+    effect    = "Allow"
+    resources = ["*"]
+    actions = [
+      "cloudtrail:CreateTrail",
+      "cloudtrail:UpdateTrail",
+      "cloudtrail:DeleteTrail",
+      "cloudtrail:StopLogging",
+      "cloudtrail:StartLogging",
+      "cloudtrail:PutEventSelectors",
+      "cloudtrail:GetEventSelectors",
+      "cloudtrail:DescribeTrails",
+      "cloudtrail:GetTrailStatus",
+      "cloudtrail:AddTags",
+      "cloudtrail:RemoveTags"
+    ]
+  }
+  statement {
 
     effect = "Allow"
     actions = [
