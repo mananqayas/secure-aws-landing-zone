@@ -1,11 +1,7 @@
-provider "aws" {
-  region = "ca-central-1"
-}
-
 data "aws_organizations_organization" "org" {}
 resource "aws_organizations_organization" "org" {
   enabled_policy_types          = ["SERVICE_CONTROL_POLICY"]
-  aws_service_access_principals = ["sso.amazonaws.com"]
+  aws_service_access_principals = ["sso.amazonaws.com", "cloudtrail.amazonaws.com"]
 }
 
 resource "aws_organizations_organizational_unit" "this" {
