@@ -467,6 +467,18 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
 
   }
   statement {
+    sid       = "CloudTrailServiceLinkedRole"
+    actions   = ["iam:CreateServiceLinkedRole"]
+    effect    = "Allow"
+    resources = ["arn:aws:iam::013310058149:role/aws-service-role/cloudtrail.amazonaws.com/AWSServiceRoleForCloudTrail"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:AWSServiceName"
+      values   = ["cloudtrail.amazonaws.com"]
+
+    }
+  }
+  statement {
     sid    = "PlatformIAM"
     effect = "Allow"
     actions = [
