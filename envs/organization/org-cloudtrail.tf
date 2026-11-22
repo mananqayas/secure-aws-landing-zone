@@ -1,5 +1,5 @@
 resource "aws_cloudtrail" "org_trail" {
-  depends_on = [module.aws_organization]
+  depends_on                 = [module.aws_organization]
   name                       = "org-trail"
   enable_log_file_validation = true
   is_multi_region_trail      = true
