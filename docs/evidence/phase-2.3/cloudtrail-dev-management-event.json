@@ -1,0 +1,49 @@
+{
+  "eventVersion": "1.11",
+  "userIdentity": {
+    "type": "AWSService",
+    "invokedBy": "cloudtrail.amazonaws.com"
+  },
+  "eventTime": "2026-11-21T06:19:12Z",
+  "eventSource": "sts.amazonaws.com",
+  "eventName": "AssumeRole",
+  "awsRegion": "ca-central-1",
+  "sourceIPAddress": "cloudtrail.amazonaws.com",
+  "userAgent": "cloudtrail.amazonaws.com",
+  "requestParameters": {
+    "roleArn": "arn:aws:iam::102199089014:role/aws-service-role/cloudtrail.amazonaws.com/AWSServiceRoleForCloudTrail",
+    "roleSessionName": "CloudTrailOrganizationReplication"
+  },
+  "responseElements": {
+    "credentials": {
+      "accessKeyId": "<temp-access-key-redacted>",
+      "sessionToken": "<redacted>",
+      "expiration": "2026-11-21T07:19:12Z"
+    },
+    "assumedRoleUser": {
+      "assumedRoleId": "AROARPS4KK53IGEAVK76E:CloudTrailOrganizationReplication",
+      "arn": "arn:aws:sts::102199089014:assumed-role/AWSServiceRoleForCloudTrail/CloudTrailOrganizationReplication"
+    },
+    "packedPolicySize": 21,
+    "sessionTokenUtilization": 21,
+    "sessionTokenSize": 892
+  },
+  "additionalEventData": {
+    "ExtendedRequestId": "MTpjYS1jZW50cmFsLTE6UzoxNzk1MjQxOTUyODQyOlI6Tm96UGtXd0Y="
+  },
+  "requestID": "9403bf83-96f3-4c24-95ed-f5c1717a90cc",
+  "eventID": "c9412fdc-d932-35b4-99e7-4a4125469369",
+  "readOnly": true,
+  "resources": [
+    {
+      "accountId": "102199089014",
+      "type": "AWS::IAM::Role",
+      "ARN": "arn:aws:iam::102199089014:role/aws-service-role/cloudtrail.amazonaws.com/AWSServiceRoleForCloudTrail"
+    }
+  ],
+  "eventType": "AwsApiCall",
+  "managementEvent": true,
+  "recipientAccountId": "102199089014",
+  "sharedEventID": "8ab3f005-648c-4b0f-a455-3cd784158e7d",
+  "eventCategory": "Management"
+}
