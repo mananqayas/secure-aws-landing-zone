@@ -8,14 +8,16 @@ resource "aws_config_configuration_recorder" "config_recorder" {
   name     = "config-recorder"
   role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"
   recording_group {
-    all_supported = true
+    all_supported                 = true
+    include_global_resource_types = true
   }
   depends_on = [aws_iam_service_linked_role.config]
 }
 
 resource "aws_config_delivery_channel" "config_recorder_delivery" {
   name           = "config-recorder-channel"
-  s3_bucket_name = "arn:aws:s3:::config-logs-408873346185"
+  s3_bucket_name = "config-logs-408873346185"
+  depends_on     = [aws_config_configuration_recorder.config_recorder]
 }
 
 resource "aws_config_configuration_recorder_status" "config_recorder_status" {
