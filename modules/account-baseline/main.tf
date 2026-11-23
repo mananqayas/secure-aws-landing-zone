@@ -52,6 +52,17 @@ data "aws_iam_policy_document" "boundary_policy_document" {
     ]
   }
   statement {
+    sid = "GetConfigServiceRole"
+    actions = [
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies"
+    ]
+    effect    = "Allow"
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
+  }
+  statement {
     sid       = "MemberCreateRole"
     actions   = ["iam:CreateRole"]
     resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/terraform-*"]
@@ -173,6 +184,18 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
       aws_iam_role.terraform_deploy_role.arn,
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/OrganizationAccountAccessRole"
     ]
+  }
+
+  statement {
+    sid = "GetConfigServiceRole"
+    actions = [
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies"
+    ]
+    effect    = "Allow"
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
   }
 
   statement {
