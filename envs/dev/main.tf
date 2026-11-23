@@ -150,3 +150,6 @@ module "vpc" {
   }
 
 }
+module "config" {
+  source = "../../modules/config-recorder/"
+}
