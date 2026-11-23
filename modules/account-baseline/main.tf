@@ -51,6 +51,17 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/terraform-*"
     ]
   }
+  statment {
+    sid = "GetConfigServiceRole"
+    actions = [
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies"
+    ]
+    effect    = "Allow"
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
+  }
   statement {
     sid       = "MemberCreateRole"
     actions   = ["iam:CreateRole"]
