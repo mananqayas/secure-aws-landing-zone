@@ -69,3 +69,8 @@ data "aws_iam_policy_document" "config_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "config_bucket" {
+  bucket = aws_s3_bucket.config_bucket.id
+  policy = data.aws_iam_policy_document.config_bucket.json
+}
+
