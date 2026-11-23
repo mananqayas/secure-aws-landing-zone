@@ -421,6 +421,7 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "cloudtrail:DescribeTrails",
       "cloudtrail:GetTrailStatus",
       "cloudtrail:AddTags",
+      "cloudtrail:ListTags",
       "cloudtrail:RemoveTags"
     ]
   }
