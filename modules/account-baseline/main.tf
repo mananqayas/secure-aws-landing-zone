@@ -187,6 +187,18 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
   }
 
   statement {
+    sid = "GetConfigServiceRole"
+    actions = [
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies"
+    ]
+    effect    = "Allow"
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
+  }
+
+  statement {
     sid = "AllowGetRoleOnOAA"
     actions = [
       "iam:GetRole",
