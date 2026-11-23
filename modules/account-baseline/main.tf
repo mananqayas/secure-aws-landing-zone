@@ -51,7 +51,7 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/terraform-*"
     ]
   }
-  statment {
+  statement {
     sid = "GetConfigServiceRole"
     actions = [
       "iam:GetRole",
