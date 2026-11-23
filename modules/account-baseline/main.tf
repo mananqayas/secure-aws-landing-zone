@@ -14,6 +14,16 @@ data "aws_iam_policy_document" "boundary_policy_document" {
     not_actions = ["iam:*"]
   }
   statement {
+    sid       = "ConfigSLRCreate"
+    actions   = ["iam:CreateServiceLinkedRole"]
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:AWSServiceName"
+      values   = ["config.amazonaws.com"]
+    }
+  }
+  statement {
     sid = "MemberIAMManage"
     actions = [
       "iam:AttachRolePolicy",
@@ -95,6 +105,16 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
     sid         = "AllowAllButIAM"
     resources   = ["*"]
     not_actions = ["iam:*"]
+  }
+  statement {
+    sid       = "ConfigSLRCreate"
+    actions   = ["iam:CreateServiceLinkedRole"]
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
+    condition {
+      test     = "StringEquals"
+      variable = "iam:AWSServiceName"
+      values   = ["config.amazonaws.com"]
+    }
   }
   statement {
     sid    = "MemberIAMManage"
