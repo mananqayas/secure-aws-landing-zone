@@ -22,12 +22,12 @@ resource "aws_iam_role_policy_attachment" "terraform_config" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRoleForOrganizations"
 }
 
-# resource "aws_config_configuration_aggregator" "config_aggregator" {
-#   name       = "org-config-aggregator"
-#   depends_on = [aws_iam_role_policy_attachment.terraform_config]
-#   organization_aggregation_source {
-#     all_regions = true
-#     role_arn    = aws_iam_role.terraform_config.arn
-#   }
-# 
-# }
+resource "aws_config_configuration_aggregator" "config_aggregator" {
+  name       = "org-config-aggregator"
+  depends_on = [aws_iam_role_policy_attachment.terraform_config]
+  organization_aggregation_source {
+    all_regions = true
+    role_arn    = aws_iam_role.terraform_config.arn
+  }
+
+}
