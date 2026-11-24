@@ -331,7 +331,7 @@ data "aws_iam_policy_document" "apply_role_iam_permissions_boundary" {
     sid       = "AssumeCeiling"
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
-    resources = ["arn:aws:iam::*:role/OrganizationAccountAccessRole", "arn:aws:iam::*:role/terraform-deploy"]
+    resources = ["arn:aws:iam::*:role/terraform-deploy"]
   }
 
 
@@ -562,7 +562,6 @@ data "aws_iam_policy_document" "apply_role_permissions_policy_doc" {
       "sts:AssumeRole"
     ]
     resources = [
-      "arn:aws:iam::*:role/OrganizationAccountAccessRole",
       "arn:aws:iam::*:role/terraform-deploy"
     ]
   }
@@ -616,7 +615,7 @@ data "aws_iam_policy_document" "plan_role_cross_account_doc" {
     sid       = "AssumeMemberPlanRoles"
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
-    resources = ["arn:aws:iam::*:role/terraform-plan", "arn:aws:iam::*:role/OrganizationAccountAccessRole"]
+    resources = ["arn:aws:iam::*:role/terraform-plan"]
   }
 }
 
