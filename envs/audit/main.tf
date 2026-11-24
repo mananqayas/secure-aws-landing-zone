@@ -14,3 +14,7 @@ module "baseline" {
   management_account_id = "013310058149"
 }
 
+# Instantiate config module
+module "config" {
+  source = "../../modules/config-recorder/"
+}
