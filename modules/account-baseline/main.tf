@@ -23,20 +23,6 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       values   = ["config.amazonaws.com"]
     }
   }
-  dynamic "statement" {
-    for_each = var.enable_config_aggregator ? [1] : []
-    content {
-      sid       = "AllowIAMPassRole"
-      actions   = ["iam:PassRole"]
-      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/terraform-config-aggregator"]
-      effect    = "Allow"
-      condition {
-        test     = "StringEquals"
-        variable = "iam:PassedToService"
-        values   = ["config.amazonaws.com"]
-      }
-    }
-  }
   statement {
     sid = "MemberIAMManage"
     actions = [
@@ -141,6 +127,20 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
     sid         = "AllowAllButIAM"
     resources   = ["*"]
     not_actions = ["iam:*"]
+  }
+  dynamic "statement" {
+    for_each = var.enable_config_aggregator ? [1] : []
+    content {
+      sid       = "AllowIAMPassRole"
+      actions   = ["iam:PassRole"]
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/terraform-config-aggregator"]
+      effect    = "Allow"
+      condition {
+        test     = "StringEquals"
+        variable = "iam:PassedToService"
+        values   = ["config.amazonaws.com"]
+      }
+    }
   }
   statement {
     sid       = "ConfigSLRCreate"
