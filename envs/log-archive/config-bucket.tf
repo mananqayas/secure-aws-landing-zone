@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "config_bucket" {
     condition {
       test     = "StringEquals"
       variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-access"]
+      values   = ["bucket-owner-full-control"]
     }
 
     condition {
