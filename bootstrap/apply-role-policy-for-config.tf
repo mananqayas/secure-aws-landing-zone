@@ -34,11 +34,6 @@ data "aws_iam_policy_document" "config_policy_doc" {
     actions   = ["iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies", "iam:GetRolePolicy"]
     resources = ["arn:aws:iam::013310058149:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig"]
     effect    = "Allow"
-    condition {
-      test     = "StringEquals"
-      variable = "iam:AWSServiceName"
-      values   = ["config.amazonaws.com"]
-    }
 
   }
 
