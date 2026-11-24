@@ -42,3 +42,7 @@ module "aws_organization" {
   }
 }
 
+# Instantiate config module
+module "config" {
+  source = "../../modules/config-recorder/"
+}
