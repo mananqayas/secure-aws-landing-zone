@@ -61,6 +61,10 @@ data "aws_iam_policy_document" "bucket_policy" {
     sid       = "AWSConfigConformsBucketPermissionsCheck"
     actions   = ["s3:GetBucketAcl"]
     resources = [aws_s3_bucket.conformance_pack_bucket.arn]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
     condition {
       test     = "StringEquals"
       variable = "aws:PrincipalOrgId"
@@ -79,6 +83,10 @@ data "aws_iam_policy_document" "bucket_policy" {
     actions   = ["s3:GetObject", "s3:PutObject"]
     resources = [aws_s3_bucket.conformance_pack_bucket.arn, "${aws_s3_bucket.conformance_pack_bucket.arn}/*"]
     effect    = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
     condition {
       test     = "StringEquals"
       variable = "aws:PrincipalOrgId"
@@ -91,9 +99,13 @@ data "aws_iam_policy_document" "bucket_policy" {
     }
   }
   statement {
-    sid       = "DenyInsecureTransport"
-    actions   = ["s3:*"]
-    effect    = "Deny"
+    sid     = "DenyInsecureTransport"
+    actions = ["s3:*"]
+    effect  = "Deny"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
     resources = [aws_s3_bucket.conformance_pack_bucket.arn, "${aws_s3_bucket.conformance_pack_bucket.arn}/*"]
     condition {
       test     = "Bool"
