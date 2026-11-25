@@ -37,6 +37,51 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       }
     }
   }
+
+  dynamic "statement" {
+    for_each = var.is_audit_account ? [1] : []
+    content {
+      sid       = "ConfigConformsSLRCreate"
+      actions   = ["iam:CreateServiceLinkedRole"]
+      effect    = "Allow"
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms"]
+      condition {
+        test     = "StringEquals"
+        variable = "iam:AWSServiceName"
+        values   = ["config-conforms.amazonaws.com"]
+      }
+    }
+  }
+  dynamic "statement" {
+    for_each = var.is_audit_account ? [1] : []
+    content {
+      sid       = "ConfigMultiAccountSetupSLRCreate"
+      actions   = ["iam:CreateServiceLinkedRole"]
+      effect    = "Allow"
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
+      condition {
+        test     = "StringEquals"
+        variable = "iam:AWSServiceName"
+        values   = ["config-multiaccountsetup.amazonaws.com"]
+      }
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.is_audit_account ? [1] : []
+    content {
+      sid = "ReadConfigConformsAndMultiAccountSetupSLR"
+      actions = [
+        "iam:GetRole",
+        "iam:GetRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies"
+      ]
+
+      effect    = "Allow"
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleConfigMultiAccountSetup"]
+    }
+  }
   statement {
     sid = "MemberIAMManage"
     actions = [
@@ -164,6 +209,50 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
       test     = "StringEquals"
       variable = "iam:AWSServiceName"
       values   = ["config.amazonaws.com"]
+    }
+  }
+  dynamic "statement" {
+    for_each = var.is_audit_account ? [1] : []
+    content {
+      sid       = "ConfigConformsSLRCreate"
+      actions   = ["iam:CreateServiceLinkedRole"]
+      effect    = "Allow"
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms"]
+      condition {
+        test     = "StringEquals"
+        variable = "iam:AWSServiceName"
+        values   = ["config-conforms.amazonaws.com"]
+      }
+    }
+  }
+  dynamic "statement" {
+    for_each = var.is_audit_account ? [1] : []
+    content {
+      sid       = "ConfigMultiAccountSetupSLRCreate"
+      actions   = ["iam:CreateServiceLinkedRole"]
+      effect    = "Allow"
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
+      condition {
+        test     = "StringEquals"
+        variable = "iam:AWSServiceName"
+        values   = ["config-multiaccountsetup.amazonaws.com"]
+      }
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.is_audit_account ? [1] : []
+    content {
+      sid = "ReadConfigConformsAndMultiAccountSetupSLR"
+      actions = [
+        "iam:GetRole",
+        "iam:GetRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies"
+      ]
+
+      effect    = "Allow"
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleConfigMultiAccountSetup"]
     }
   }
   statement {
