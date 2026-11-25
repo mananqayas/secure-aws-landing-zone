@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       sid       = "ConfigMultiAccountSetupSLRCreate"
       actions   = ["iam:CreateServiceLinkedRole"]
       effect    = "Allow"
-      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
       condition {
         test     = "StringEquals"
         variable = "iam:AWSServiceName"
@@ -79,7 +79,7 @@ data "aws_iam_policy_document" "boundary_policy_document" {
       ]
 
       effect    = "Allow"
-      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleConfigMultiAccountSetup"]
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
     }
   }
   statement {
@@ -231,7 +231,7 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
       sid       = "ConfigMultiAccountSetupSLRCreate"
       actions   = ["iam:CreateServiceLinkedRole"]
       effect    = "Allow"
-      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
       condition {
         test     = "StringEquals"
         variable = "iam:AWSServiceName"
@@ -252,7 +252,7 @@ data "aws_iam_policy_document" "deploy_identity_policy_doc" {
       ]
 
       effect    = "Allow"
-      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleConfigMultiAccountSetup"]
+      resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-conforms.amazonaws.com/AWSServiceRoleForConfigConforms", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/config-multiaccountsetup.amazonaws.com/AWSServiceRoleForConfigMultiAccountSetup"]
     }
   }
   statement {
