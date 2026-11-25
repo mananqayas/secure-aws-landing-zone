@@ -13,6 +13,7 @@ module "baseline" {
   source                   = "../../modules/account-baseline/"
   management_account_id    = "013310058149"
   enable_config_aggregator = true
+  is_audit_account = true
 }
 
 # Instantiate config module

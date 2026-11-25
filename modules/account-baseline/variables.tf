@@ -7,3 +7,9 @@ variable "enable_config_aggregator" {
   description = "Config aggregator iam:PassRole flag"
   default     = false
 }
+
+variable "is_audit_account" {
+  type        = bool
+  description = "Flag for audit account SLR statement grants"
+  default     = false
+}
