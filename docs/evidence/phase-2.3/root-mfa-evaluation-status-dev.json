@@ -1,0 +1,13 @@
+{
+    "ConfigRulesEvaluationStatus": [
+        {
+            "ConfigRuleName": "RootAccountMFAEnabled-conformance-pack-nyx5cn1wk",
+            "ConfigRuleArn": "arn:aws:config:ca-central-1:102199089014:config-rule/aws-service-rule/config-conforms.amazonaws.com/config-rule-oajbzn",
+            "ConfigRuleId": "config-rule-oajbzn",
+            "LastSuccessfulInvocationTime": "2026-11-25T14:15:41.592000-05:00",
+            "LastSuccessfulEvaluationTime": "2026-11-25T14:15:41.903000-05:00",
+            "FirstActivatedTime": "2026-11-25T10:34:00.936000-05:00",
+            "FirstEvaluationStarted": true
+        }
+    ]
+}

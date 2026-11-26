@@ -1,0 +1,59 @@
+{
+    "AggregateComplianceByConformancePacks": [
+        {
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Compliance": {
+                "ComplianceType": "NON_COMPLIANT",
+                "CompliantRuleCount": 3,
+                "NonCompliantRuleCount": 1,
+                "TotalRuleCount": 6
+            },
+            "AccountId": "996560370921",
+            "AwsRegion": "ca-central-1"
+        },
+        {
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Compliance": {
+                "ComplianceType": "NON_COMPLIANT",
+                "CompliantRuleCount": 3,
+                "NonCompliantRuleCount": 1,
+                "TotalRuleCount": 6
+            },
+            "AccountId": "013310058149",
+            "AwsRegion": "ca-central-1"
+        },
+        {
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Compliance": {
+                "ComplianceType": "NON_COMPLIANT",
+                "CompliantRuleCount": 3,
+                "NonCompliantRuleCount": 1,
+                "TotalRuleCount": 6
+            },
+            "AccountId": "102199089014",
+            "AwsRegion": "ca-central-1"
+        },
+        {
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Compliance": {
+                "ComplianceType": "NON_COMPLIANT",
+                "CompliantRuleCount": 3,
+                "NonCompliantRuleCount": 1,
+                "TotalRuleCount": 6
+            },
+            "AccountId": "408873346185",
+            "AwsRegion": "ca-central-1"
+        },
+        {
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Compliance": {
+                "ComplianceType": "NON_COMPLIANT",
+                "CompliantRuleCount": 3,
+                "NonCompliantRuleCount": 1,
+                "TotalRuleCount": 6
+            },
+            "AccountId": "503440159390",
+            "AwsRegion": "ca-central-1"
+        }
+    ]
+}
