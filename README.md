@@ -3,6 +3,8 @@
 
 This project builds and operates the foundations of an AWS Organization as code. It separates security and workload accounts, uses short-lived CI credentials instead of stored AWS access keys, and distinguishes infrastructure review (`plan`) from deployment (`apply`). The implementation is delivered incrementally, with architecture decisions and verification evidence linked alongside the code.
 
+**Phase 2.3: Guardrails: ✅ complete, 2026-11-26 (release: [v2.3.0](https://github.com/mananqayas/secure-aws-landing-zone/releases/tag/v2.3.0))**
+
 **Phase 2.2: Network: ✅ complete, 2026-11-18 (release: [v2.2.0](https://github.com/mananqayas/secure-aws-landing-zone/releases/tag/v2.2.0))**
 
 **Phase 2.1: Identity: ✅ complete, 2026-11-13 (release: [v2.1.0](https://github.com/mananqayas/secure-aws-landing-zone/releases/tag/v2.1.0))**
@@ -15,9 +17,11 @@ This project builds and operates the foundations of an AWS Organization as code.
 * 📄 [ADR 0002 - organization design](./docs/adr/0002-organization-design.md)
 * 📄 [ADR 0003 - workforce identity and access model](./docs/adr/0003-workforce-identity-and-access-model.md)
 * 📄 [ADR 0004 - network architecture](./docs/adr/0004-network-architecture.md)
+* 📄 [ADR 0005 - guardrails and detective controls](./docs/adr/0005-guardrails-and-detective-controls.md)
 
 **Verification:**
 
+* 📄 [Phase 2.3 evidence checklist](./docs/evidence/phase-2.3/)
 * 📄 [Phase 2.2 evidence checklist](./docs/evidence/phase-2.2/)
 * 📄 [Phase 2.1 evidence checklist](./docs/evidence/phase-2.1/)
 * 📄 [Phase 2.0 evidence checklist](./docs/evidence/phase-2.0/)
@@ -63,7 +67,8 @@ flowchart TB
     PLAN_ROLE -. "state access" .-> BUCKET
     APPLY_ROLE -. "state access" .-> BUCKET
 ```
-The diagram shows deployed organization structure and implemented CI/state paths, not the security services planned for later phases. The `Log Archive` and `Audit` accounts are separate account boundaries; centralized log ingestion and security-service deployment are not implied by their names.
+
+The diagram shows deployed organization structure and implemented CI/state paths. The Phase 2.3 guardrails (the SCPs, the organization trail, Config recording and aggregation, and the conformance pack) are deployed but not drawn; see ADR-0005. The `Log Archive` and `Audit` accounts are separate account boundaries: Log Archive holds the trail, flow-log, and Config archive buckets, and Audit holds the Config aggregator and the conformance pack.
 
 ## Phase 2.0 - What was built
 
@@ -85,7 +90,9 @@ The diagram shows deployed organization structure and implemented CI/state paths
 | CI plan and deploy | **[`terraform-plan.yml`](.github/workflows/terraform-plan.yml) /  [`terraform-apply.yml`](.github/workflows/terraform-apply.yml)** |
 | Workforce identity (groups, permission sets, assignments) | **[`envs/identity`](./envs/identity/)** |
 | Workload networking (VPC, NACLs, NAT flag, endpoints, flow logs) | **[`modules/vpc/main.tf`](./modules/vpc/main.tf)** / **[`envs/dev`](./envs/dev/)** / **[`envs/prod`](./envs/prod/)** |
-| Architecture decisions and test evidence | **[`ADR-0001`](./docs/adr/0001-delivery-and-identity-architecture.md) / [`ADR-0002`](./docs/adr/0002-organization-design.md) / [`ADR-0003`](./docs/adr/0003-workforce-identity-and-access-model.md) / [`Phase 2.0 checklist`](./docs/evidence/phase-2.0/README.md) / [`Phase 2.1 checklist`](./docs/evidence/phase-2.1/README.md) / [`ADR-0004`](./docs/adr/0004-network-architecture.md) / [`Phase 2.2 checklist`](./docs/evidence/phase-2.2/README.md)**  |
+| Organization guardrails (SPCs, region confinement, logging protection) | **[`env/organization/scp.tf`](./envs/organization/slr-for-config-conforms.tf)** |
+| Config recording, aggregation, and the conformance pack | **[`modules/config-recorder/main.tf`](./modules/config-recorder/main.tf)** / **[`envs/audit/org-config.tf`](./envs/audit/org-config.tf)** / **[`envs/audit/org-conformance-pack.tf`](./envs/audit/org-config.tf)**|
+| Architecture decisions and test evidence | **[`ADR-0001`](./docs/adr/0001-delivery-and-identity-architecture.md) / [`ADR-0002`](./docs/adr/0002-organization-design.md) / [`ADR-0003`](./docs/adr/0003-workforce-identity-and-access-model.md) / [`ADR-0004`](./docs/adr/0004-network-architecture.md) / [`ADR-0005`](./docs/adr/0005-guardrails-and-detective-controls.md) / [`Phase 2.0 checklist`](./docs/evidence/phase-2.0/README.md) / [`Phase 2.1 checklist`](./docs/evidence/phase-2.1/README.md) / [`Phase 2.2 checklist`](./docs/evidence/phase-2.2/README.md)** / [`Phase 2.3 checklist`](./docs/evidence/phase-2.3/) |
 
 ## Phase 2.1 - What was built
 
@@ -109,3 +116,11 @@ The diagram shows deployed organization structure and implemented CI/state paths
 
 **Operational evidence:** the delivered flow logs are themselves the record - the gate tests' REJECT entries and matched ACCEPT/REJECT pair, and the Prod NAT traversal with its negative control, are committed as evidence. **[Phase 2.2 checklist](./docs/evidence/phase-2.2/README.md)**
 
+## Phase 2.3 - What was built
+* **Service control policies** - Six SCPs defined as resources in the organization root: DenyLeaveOrganization, RegionLeaveOrganization, RegionAllowList (ca-central-1 only, with NotAction carve-outs for global services), RequireEncrytion (EBS and RDS), ProtectLogging, and DenyRootInMembers on the workload accounts, plus SuspendedDenyAll on the Suspended OU. ProtectLogging denies stopping or deleting the trail and the Config recorders, so a future Terraform destroy of a recorder is refused by the policy itself, by design. **[Source →](./envs/organization/scp.tf)**
+* **Organization CloudTrail** - One trail, `org-trail`: organization trail, multi-region, global service events on, log file validation on, management events read/write, data events off. It delivers to a dedicated bucket in the Log Archive account (SSE-S3, public access block, Glacier at 90 days, expiry at 365), under the organization path `AWSLogs/<org-id>/<account-id>`, with delivered objects verified for all five accounts. **[Source →](./envs/organization/org-cloudtrail.tf)** / **[Bucket →](./envs/log-archive/cloudtrail-s3-bucket.tf)**
+* **Config recording in every account** - A reusable `modules/config-recorder` (Terraform-managed service-linked role, all supported resource types, global resource types included) is instantiated in all five accounts, delivering configuration history to a central bucket in the Log Archive account. **[Souce →](./envs/log-archive/config-bucket.tf)**
+* **Delegated admininstration and aggregation** - The Audit account is the delegated admininstrator for both Config principals (aggregation and multi-account setup), and the organization aggregator `org-config-aggregator` runs there on a dedicated role with AWSConfigRoleForOrganization; the Config service-linked role cannot serve as the aggregator's role because it lacks the Organizations permissions aggregation needs. **[Source →](./envs/audit/org-config.tf)** / **[Registration →](./envs/organization/config-delegated-administrator.tf)**
+* **Conformance pack** - One organization pack, `landing-zone-baseline`, deploys six AWS managed rules (CLOUD_TRAIL_ENABLED, VPC_FLOW_LOGS_ENABLED, ENCRYPTED_VOLUMES, S3_ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS, ROOT_ACCOUNT_MFA_ENABLED, INCOMING_SSH_DISABLED) into all five accounts from a staging bucket in Audit. Deployment reached CREATE_SUCCESSFUL/UPDATE_SUCCESSFUL in every account, after the management account's deployment service-linked roles were created explicitly: a delegated administrator's deployments do not create them automatically. **[Source →](./envs/audit/org-conformance-pack.tf)** / **[Management SLRs →](./envs/organization/slr-for-config-conforms.tf)**
+
+**Operational evidence:** the SCP negative-test battery ran live in Dev (leave-organization denied, cross-region calls denied, unencrypted volume creation denied, recorder stop denied); the pack's per-account deployment status and the organization-wide compliance output are committed. The baseline's first picture: CloudTrailEnabled and IncomingSSHDisabled compliant in all five accounts, and two findings recorded with dispositions in ADR-0005, VPCFlowLogsEnabled noncompliant on the default VPC in every account, and RootAccountMFAEnabled reporting in the management account but recording no result against the member accounts' dormant root users, with DenyRootInMembers as the compensating control. **[Phase 2.3 checklist](./docs/evidence/phase-2.3/README.md)**
