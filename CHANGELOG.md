@@ -4,6 +4,24 @@ All notable decisions and changes, newest first. Conventional commits in git; th
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [2.3.0] - 2026-11-26
+
+### Added
+* Six service control policies in `envs/organization`: DenyLeaveOrganization, RegionAllowList (ca-central-1, with NotAction carve-outs for global services and for the CloudTrail read actions the operator's own log inspection needs), RequireEncryption (EBS, RDS), ProtectLogging, and DenyRootInMembers on the workload accounts, plus SuspendedDenyAll on the Suspended OU.
+* Organization CloudTrail: trail `org-trail` (organization trail, multi-region, global service events on, log file validation on, management events read/write, data events off) delivering to a dedicated bucket in the Log Archive account, SSE-S3 with a public access block, Glacier transition at 90 days, expiry at 365 days, and delivery verified under all five account prefixes on the organization path.
+* AWS Config recording in all five accounts from a reusable `modules/config-recorder` (Terraform-managed service-linked role, all supported resource types, global resource types included), delivering configuration history to a central bucket in the Log Archive account.
+* Delegated admininstration of AWS Config to the Audit account for both Config principals (aggregation and multi-account setup), and organization aggregator (`org-config-aggregator`) running on a dedicated role with `AWSConfigROleForOrganizations`, and an organization conformance pack, `landing-zone-baseline` deploying six AWS managed rules (CLOUD_TRAIL_ENABLED, VPC_FLOW_FLOGS_ENABLED, ENCRYPTED_VOLUMES, S3_ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS, ROOT_ACCOUNT_MFA_ENABLED, INCOMING_SSH_ENABLED) into every account from a staging bucket in Audit.
+* ADR-0005 (organization guardrails, centralized logging, and detective controls) and the Phase 2.3 evidence set, including the conformance pack's per-account deployment status and the organization-wide compliance output.
+
+### Security
+* ProtectLogging denies stopping or deleting the organization trail and the Config recorders and delivery channels across member accounts; as an accepted consequence, a future Terraform destroy of a recorder is refused by the policy itself an teardown becomes a deliberate policy change first.
+* The audit trail and the configuration archive both live in the Log Archive account, outside control of the accounts they record.
+* The aggregator does not use the Config service-linked role, which lacks the Organizations permissions aggregation requires; it runs on a dedicated role fenced to the Config service, and the pack's deployment roles in the management account were created explicitly after the first deployment showed that delegated administration does not create them automatically.
+* First baseline results, recorded as findings in ADR-0005 rather than hidden: CloudTrailEnabled and IncomingSSHDisabled are compliant in all five accounts; VPCFlowLogsEnabled is noncompliant in all five accounts on exactly one resource each, the AWS-created default VPCs, while the module-built VPCs in Dev and Prod are complaint (accepted for this phase, default VPC deletion is a follow-up change); RootAccountMFAEnabled is compliant in the management account and records no result in member accounts, whose root users are dormant and have no credentials, with DenyRootInMembers are the compensating control.
+* The organization trail was created once through the break-glass path after CI creation failed, then imported into state and enabled by a CI apply; the short logging gap from that window and the full sequence are documented in the Phase 2.3 evidence closeout notes.
+
+
+
 ## [2.2.0] - 2026-11-18
 
 ### Added

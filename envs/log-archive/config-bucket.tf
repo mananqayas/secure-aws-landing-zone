@@ -67,6 +67,21 @@ data "aws_iam_policy_document" "config_bucket" {
     }
 
   }
+  statement {
+    actions = ["s3:*"]
+    effect  = "Deny"
+    principals {
+
+      type        = "*"
+      identifiers = ["*"]
+    }
+    resources = [aws_s3_bucket.config_bucket.arn, "${aws_s3_bucket.config_bucket.arn}/*"]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "config_bucket" {
@@ -74,3 +89,19 @@ resource "aws_s3_bucket_policy" "config_bucket" {
   policy = data.aws_iam_policy_document.config_bucket.json
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle" {
+  bucket = aws_s3_bucket.config_bucket.id
+
+  rule {
+    id     = "lifecycle"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+    expiration {
+      days = 365
+    }
+  }
+}

@@ -73,6 +73,20 @@ data "aws_iam_policy_document" "bucket_policy" {
       values   = ["bucket-owner-full-control"]
     }
   }
+  statement {
+    actions = ["s3:*"]
+    effect  = "Deny"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    resources = [aws_s3_bucket.cloud_trail_bucket.arn, "${aws_s3_bucket.cloud_trail_bucket.arn}/*"]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
 
 
 }
@@ -80,4 +94,21 @@ data "aws_iam_policy_document" "bucket_policy" {
 resource "aws_s3_bucket_policy" "policy" {
   bucket = aws_s3_bucket.cloud_trail_bucket.id
   policy = data.aws_iam_policy_document.bucket_policy.json
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "bucket_lifecycle_cloudtrail" {
+  bucket = aws_s3_bucket.cloud_trail_bucket.id
+
+  rule {
+    id     = "lifecycle"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+    expiration {
+      days = 365
+    }
+  }
 }

@@ -1,0 +1,34 @@
+{
+    "OrganizationConformancePackDetailedStatuses": [
+        {
+            "AccountId": "013310058149",
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Status": "UPDATE_SUCCESSFUL",
+            "LastUpdateTime": "2026-11-25T13:17:15.279000-05:00"
+        },
+        {
+            "AccountId": "102199089014",
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Status": "UPDATE_SUCCESSFUL",
+            "LastUpdateTime": "2026-11-25T13:17:16.250000-05:00"
+        },
+        {
+            "AccountId": "408873346185",
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Status": "UPDATE_SUCCESSFUL",
+            "LastUpdateTime": "2026-11-25T13:17:17.216000-05:00"
+        },
+        {
+            "AccountId": "503440159390",
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Status": "UPDATE_SUCCESSFUL",
+            "LastUpdateTime": "2026-11-25T13:17:18.293000-05:00"
+        },
+        {
+            "AccountId": "996560370921",
+            "ConformancePackName": "OrgConformsPack-landing-zone-baseline-stscfuum",
+            "Status": "UPDATE_SUCCESSFUL",
+            "LastUpdateTime": "2026-11-25T13:17:19.270000-05:00"
+        }
+    ]
+}
