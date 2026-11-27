@@ -120,3 +120,19 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
   policy = data.aws_iam_policy_document.bucket_policy.json
 
 }
+resource "aws_s3_bucket_lifecycle_configuration" "bucket_config_conforms" {
+  bucket = aws_s3_bucket.conformance_pack_bucket.id
+
+  rule {
+    id     = "lifecycle"
+    status = "Enabled"
+    filter {}
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+    expiration {
+      days = 365
+    }
+  }
+}

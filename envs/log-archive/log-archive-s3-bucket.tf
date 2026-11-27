@@ -48,6 +48,20 @@ data "aws_iam_policy_document" "allow_access_for_flow_logs" {
 
     resources = ["${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/102199089014/*", "${aws_s3_bucket.log_archive_bucket.arn}/AWSLogs/503440159390/*"]
   }
+  statement {
+    actions = ["s3:*"]
+    effect  = "Deny"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    resources = [aws_s3_bucket.log_archive_bucket.arn, "${aws_s3_bucket.log_archive_bucket.arn}/*"]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "attach_policy_for_delivery_logs_from_dev_and_prod" {
@@ -61,6 +75,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket_config" {
   rule {
     id     = "lifecycle"
     status = "Enabled"
+    filter {}
     transition {
       days          = 90
       storage_class = "GLACIER"
