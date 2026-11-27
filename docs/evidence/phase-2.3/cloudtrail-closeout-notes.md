@@ -6,7 +6,7 @@
 
 **Failure mode 1.** `InsufficientS3BucketPolicyException` (first seen 2026-11-20 22:06 ET): trail creation was attempted before the bucket policy was in place. Fixed by applying the bucket and its policy before the trail. Bucket before service.
 
-**Failure mode 2.** `InsufficientDependencyServiceAccessPermissionException`: the CI apply role could not trigger creation of the CloudTrail service-linked role, despite the`iam:CreateServiceLinkedRole` grant being present and IAM simulation returning allowed. Root cause unproven. Prime suspect is trusted-access propagation timing within a single apply, where the trail raced the organization resouce with no dependency edge. `depends_on = [module.aws_organization]` is now on the trail so a rebuild cannot race it.
+**Failure mode 2.** `InsufficientDependencyServiceAccessPermissionException`: the CI apply role could not trigger creation of the CloudTrail service-linked role, despite the `iam:CreateServiceLinkedRole` grant being present and IAM simulation returning allowed. Root cause unproven. Prime suspect is trusted-access propagation timing within a single apply, where the trail raced the organization resource with no dependency edge. `depends_on = [module.aws_organization]` is now on the trail so a rebuild cannot race it.
 
 **The logging gap.** Creating a trail through API does not start it; logging is a separate switch the console flips for you and the API does not. The imported trail therefore showed `enable_logging` changing from false to true in the CI apply on 2026-11-21 01:11 ET. Between the break-glass creation (about 1:00 ET) and that apply, the trail existed but delivered nothing. Events from that window exist only in per-account Event history, which retains 90 days, and not in this bucket.
 

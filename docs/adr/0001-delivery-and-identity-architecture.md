@@ -9,7 +9,7 @@ We are establishing an automated, multi-account AWS Landing Zone managed via Ter
 
 1. **Long-Live Credentials:** We must completely eliminate static, high-privilege AWS Access Keys inside our CI/CD platform to protect against credential leaks.
 
-2. **Privilege Escalation:** Automated pipelines executing code changes in member accounts could accidently or maliciously modify their own IAM rights to bypass organizational guardrails.
+2. **Privilege Escalation:** Automated pipelines executing code changes in member accounts could accidentally or maliciously modify their own IAM rights to bypass organizational guardrails.
 
 3. **Bootstrap Chicken-and-Egg Dilemma:** Automated cross-account deployment roles cannot exist until they are created, requiring a secure, audited mechanism to instantiate the landing zone's foundation.
 
