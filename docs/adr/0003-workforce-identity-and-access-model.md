@@ -90,7 +90,7 @@ IAM Identity Center evaluates the configured group, permission set, and account 
 | Alternative | Reason not selected |
 | ----------- | ------------------- |
 | Assign permission sets directly to each user | Creates user-specific exceptions, complicates access reviews and offboarding, and increases drift risk. |
-| Create IAM users and access keys in each AWS account | Introduces long-lived credentials and decentralized identity lifecyle management |
+| Create IAM users and access keys in each AWS account | Introduces long-lived credentials and decentralized identity lifecycle management |
 | Give developers permanent administrative access | Violates least privilege and makes accidental or maliciouschanges harder to contain. |
 | Depend exclusively on IAM Identity Center, including emergency access | Leaves no independent recovery routeduring an Identity Cetner or broad lockout. |
 

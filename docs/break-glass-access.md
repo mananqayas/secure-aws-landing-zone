@@ -17,7 +17,7 @@ The management account root user is retained solely as an emergency recovery mec
 Break-glass access is permitted when:
 
 1. **IAM Identity Center is unavailable:** An authentication or service disruption prevents administrators from accessing the AWS environment through the normal workforce access path.
-2. **All administrators are locked out:** No authorized administrator can regain access through exisiting IAM Identity Center accounts, MFA recovery, or permission-set assignments.
+2. **All administrators are locked out:** No authorized administrator can regain access through existing IAM Identity Center accounts, MFA recovery, or permission-set assignments.
 
 Break-glass access must never be activated for convenience, faster deployment, troubleshooting that can be performed through existing roles, or bypassing access controls.
 
@@ -37,7 +37,7 @@ The designated emergency identity is the **AWS Organizations management account 
 
 The root password must be stored in an approved encrypted credential vault. MFA devices must be secured separately, with access restricted to authorized custodians.
 
-Root credentials, MFA recovery material, and secrets must never be commited to this repository.
+Root credentials, MFA recovery material, and secrets must never be committed to this repository.
 
 ## 4. Emergency Recovery Procedure
 
@@ -50,7 +50,7 @@ Root credentials, MFA recovery material, and secrets must never be commited to t
 
 ### Step 2 - Access the management account
 
-* Retrive root credentials through the approved secure custoday process.
+* Retrieve root credentials through the approved secure custoday process.
 * Open the official AWS root-user sign-in page.
 * Authenticate using the management account root credentials and its registered MFA device.
 * Record the operator identity and session start time in the incident record.

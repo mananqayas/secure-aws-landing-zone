@@ -24,7 +24,7 @@ Deploy a single organizational structure with single accounts containing mixed e
 * *Cons:* Severe violation of AWS SRA. The Compromised developer instances can sniff production traffic or access centralized logs; high blast radius.
 
 ### Option 2: AWS SRA-Aligned 3-OU Pattern with Functional Separation and Lifecycle Controls (Chosen)
-Implement a streamlined AWS SRA pattern utilizing exactly 3 OUS (`Security`, `Workloads`, `Suspended`), dedicated decoupled core accounts (`Log Arhive`, `Audit`), localized deployment home-region constraints (`ca-central-1`), and explicit account termination behaviors.
+Implement a streamlined AWS SRA pattern utilizing exactly 3 OUS (`Security`, `Workloads`, `Suspended`), dedicated decoupled core accounts (`Log Archive`, `Audit`), localized deployment home-region constraints (`ca-central-1`), and explicit account termination behaviors.
 
 * *Pros:* Absolute alignment with AWS top-tier security standards; hard boundary enforcement between security monitoring and raw data logs; strict protection against accidental cloud spend and state drift via aggressive non-production lifecycle teardown controls.
 * *Cons:* Higher complexity in organizational drift tracking; requires configuring multiple landing zone cross-account role handshakes.
@@ -61,8 +61,8 @@ Following the AWS SRA blueprint, the `Log Archive` and `Audit` accounts are comp
 
 3. **Intentional Account Lifecylce Flag (`close_on_termination`):**
 
-* To fit the realistic needs of a cloud portfolio architecture, the **`Dev` and management infrastructure accounts have `close_on_termination = true`** toggled in their Terraform configurations. This allows the automated CI/CD pipeline to rapidly spin down and securely clean up sandbox spaces to elimiated tail costs.
-* Conversely, the **`Prod` workload account has `close_on_termination = false`** explicitly enforced. This simulates production safety guidelines, ensuring that a human error or a bug in a pipeline script can never accidently drop our primary production database or infrastructure.
+* To fit the realistic needs of a cloud portfolio architecture, the **`Dev` and management infrastructure accounts have `close_on_termination = true`** toggled in their Terraform configurations. This allows the automated CI/CD pipeline to rapidly spin down and securely clean up sandbox spaces to eliminated tail costs.
+* Conversely, the **`Prod` workload account has `close_on_termination = false`** explicitly enforced. This simulates production safety guidelines, ensuring that a human error or a bug in a pipeline script can never accidentally drop our primary production database or infrastructure.
 
 ## Trade-offs & Consequences
 
